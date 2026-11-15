@@ -3,6 +3,7 @@ import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import JsonLd from "./JsonLd";
 import { ProductQuickActions } from "./ProductActions";
+import { Hanko } from "./brand";
 import { breadcrumbSchema } from "@/lib/seo";
 import type { Category, Product } from "@/lib/types";
 
@@ -11,14 +12,14 @@ export function Breadcrumbs({ items }: { items: { name: string; path: string }[]
   return (
     <>
       <JsonLd data={breadcrumbSchema(all)} />
-      <nav aria-label="Breadcrumb" className="font-mono text-[0.72rem] uppercase tracking-[0.12em] text-faint">
+      <nav aria-label="Breadcrumb" className="text-[0.8rem] text-faint">
         <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
           {all.map((item, i) => (
             <li key={item.path} className="flex items-center gap-2">
               {i > 0 && <span aria-hidden className="text-line">/</span>}
               {i === all.length - 1
                 ? <span aria-current="page" className="text-mute">{item.name}</span>
-                : <Link href={item.path} className="hover:text-ink">{item.name}</Link>}
+                : <Link href={item.path} className="hover:text-beni">{item.name}</Link>}
             </li>
           ))}
         </ol>
@@ -32,28 +33,35 @@ export function PageHero({ eyebrow, title, intro, crumbs, children, kanji }: {
 }) {
   return (
     <section className="relative overflow-hidden border-b border-line">
-      <div className="grid-paper pointer-events-none absolute inset-0 [mask-image:linear-gradient(to_bottom,black,transparent)]" />
-      {kanji && <span aria-hidden className="pointer-events-none absolute -right-6 top-6 select-none font-jp text-[9rem] font-bold leading-none text-ink/[0.035] sm:text-[14rem]">{kanji}</span>}
+      {kanji && (
+        <span aria-hidden className="vertical pointer-events-none absolute right-3 top-6 select-none font-mincho text-[4.5rem] font-extrabold leading-[1.02] text-beni/[0.13] sm:right-10 sm:text-[8rem]">{kanji}</span>
+      )}
+      <div aria-hidden className="pointer-events-none absolute -left-24 bottom-[-9rem] h-72 w-72 rounded-full bg-beni/[0.07] sm:h-96 sm:w-96" />
       <div className="shell relative pb-14 pt-10 sm:pb-20 sm:pt-14">
         <Breadcrumbs items={crumbs} />
-        <p className="eyebrow mt-10">{eyebrow}</p>
-        <h1 className="display mt-5 max-w-4xl text-[2.6rem] sm:text-6xl lg:text-7xl">{title}</h1>
-        {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-mute">{intro}</p>}
+        <p className="eyebrow reveal mt-10">{eyebrow}</p>
+        <h1 className="display reveal mt-5 max-w-4xl pr-16 text-[2.6rem] sm:pr-32 sm:text-6xl lg:text-7xl">{title}</h1>
+        {intro && <p className="reveal mt-6 max-w-2xl text-lg leading-relaxed text-mute">{intro}</p>}
         {children}
       </div>
     </section>
   );
 }
 
-export function SectionHead({ eyebrow, title, intro, action }: { eyebrow: string; title: string; intro?: string; action?: { href: string; label: string } }) {
+export function SectionHead({ eyebrow, title, intro, action, kanji }: { eyebrow: string; title: string; intro?: string; action?: { href: string; label: string }; kanji?: string }) {
   return (
     <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-      <div className="max-w-2xl">
-        <p className="eyebrow">{eyebrow}</p>
-        <h2 className="mt-4 text-3xl font-semibold sm:text-[2.6rem] sm:leading-[1.05]">{title}</h2>
-        {intro && <p className="mt-4 text-mute">{intro}</p>}
+      <div className="relative max-w-2xl">
+        {kanji && <span aria-hidden className="absolute -left-2 -top-12 select-none font-mincho text-8xl font-extrabold text-beni/[0.09]">{kanji}</span>}
+        <p className="eyebrow relative">{eyebrow}</p>
+        <h2 className="relative mt-4 text-3xl sm:text-[2.9rem] sm:leading-[1.08]">{title}</h2>
+        {intro && <p className="relative mt-4 text-mute">{intro}</p>}
       </div>
-      {action && <Link href={action.href} className="group inline-flex shrink-0 items-center gap-2 text-sm font-medium">{action.label}<ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" /></Link>}
+      {action && (
+        <Link href={action.href} className="group inline-flex shrink-0 items-center gap-2 border-b border-ink pb-1 text-sm font-medium transition hover:border-beni hover:text-beni">
+          {action.label}<ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+        </Link>
+      )}
     </div>
   );
 }
@@ -61,27 +69,32 @@ export function SectionHead({ eyebrow, title, intro, action }: { eyebrow: string
 export function ProductCard({ product, priority = false }: { product: Product; priority?: boolean }) {
   const category = typeof product.category === "object" ? product.category : null;
   const keySpecs = product.specifications.filter((s) => s.filterable).slice(0, 3);
+  const code = product.modelNumber || product.sku;
   return (
-    <article className="group card relative flex flex-col overflow-hidden transition duration-500 hover:-translate-y-1 hover:shadow-[0_24px_60px_-30px_rgba(22,24,27,0.35)]">
-      <div className="relative aspect-[4/3.3] overflow-hidden bg-gradient-to-b from-white to-paper">
+    <article className="group relative flex h-full flex-col">
+      <div className="relative aspect-square overflow-hidden rounded-sm bg-paper-2">
+        <div aria-hidden className="absolute left-1/2 top-1/2 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white transition duration-700 group-hover:scale-110" />
         {product.images[0] ? (
           <Image src={product.images[0].url} alt={product.images[0].alt || product.name} fill priority={priority}
-            sizes="(min-width: 1280px) 22vw, (min-width: 768px) 33vw, 100vw" className="object-contain p-7 transition duration-700 group-hover:scale-[1.04]" />
-        ) : <div className="grid h-full place-items-center font-mono text-xs text-faint">Image pending</div>}
-        <span className="absolute left-4 top-4 font-mono text-[0.65rem] uppercase tracking-[0.14em] text-faint">{product.modelNumber || product.sku}</span>
+            sizes="(min-width: 1280px) 22vw, (min-width: 768px) 33vw, 100vw" className="object-contain p-8 mix-blend-multiply transition duration-700 group-hover:scale-[1.06]" />
+        ) : <div className="relative grid h-full place-items-center font-mincho text-5xl text-faint">工</div>}
+        {code && <span className="absolute left-3 top-3 rounded-sm bg-white/90 px-2 py-0.5 font-mono text-[0.68rem] text-ink-2">{code}</span>}
         <ProductQuickActions product={{ id: product._id, slug: product.slug, name: product.name, sku: product.sku || product.modelNumber, image: product.images[0]?.url }} />
       </div>
-      <div className="flex flex-1 flex-col border-t border-line-2 p-5">
-        {category && <p className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-beni">{category.name}</p>}
-        <h3 className="mt-2 text-[1.05rem] font-semibold leading-snug">
-          <Link href={`/products/${product.slug}`} className="after:absolute after:inset-0">{product.name}</Link>
+      <div className="flex flex-1 flex-col pt-4">
+        {category && <p className="text-xs text-beni">{category.name}</p>}
+        <h3 className="mt-1.5 font-mincho text-[1.12rem] font-semibold leading-snug">
+          <Link href={`/products/${product.slug}`}
+            className="bg-[linear-gradient(var(--color-beni),var(--color-beni))] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 after:absolute after:inset-0 group-hover:bg-[length:100%_1px]">
+            {product.name}
+          </Link>
         </h3>
         <p className="mt-1 text-sm text-mute">{product.manufacturer}</p>
         {keySpecs.length > 0 && (
-          <dl className="mt-4 grid grid-cols-3 gap-2 border-t border-dashed border-line pt-3">
+          <dl className="mt-3 grid grid-cols-3 gap-2 border-t border-line pt-3">
             {keySpecs.map((s) => (
               <div key={s.label} className="min-w-0">
-                <dt className="truncate text-[0.65rem] uppercase tracking-wide text-faint">{s.label}</dt>
+                <dt className="truncate text-[0.68rem] text-faint">{s.label}</dt>
                 <dd className="truncate font-mono text-[0.8rem]">{s.value}{s.unit ? ` ${s.unit}` : ""}</dd>
               </div>
             ))}
@@ -92,19 +105,23 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   );
 }
 
-export function CategoryTile({ category, index }: { category: Category; index?: number }) {
+export function CategoryTile({ category }: { category: Category; index?: number }) {
   return (
-    <Link href={`/categories/${category.slug}`} className="group card relative flex min-h-56 flex-col justify-between overflow-hidden p-6 transition duration-500 hover:border-ink">
-      <div className="flex items-start justify-between">
-        {index !== undefined && <span className="font-mono text-xs text-faint">{String(index + 1).padStart(2, "0")}</span>}
-        <ArrowUpRight className="h-5 w-5 text-faint transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-beni" />
-      </div>
+    <Link href={`/categories/${category.slug}`} className="group relative flex min-h-60 flex-col justify-between overflow-hidden rounded-sm border border-line bg-white p-6 transition duration-500 hover:border-beni">
+      {category.image?.url ? (
+        <div className="relative -mx-6 -mt-6 mb-5 aspect-[16/9] overflow-hidden bg-paper-2">
+          <Image src={category.image.url} alt="" fill sizes="(min-width:1024px) 30vw, 100vw" className="object-cover transition duration-700 group-hover:scale-105" />
+        </div>
+      ) : (
+        <div className="flex items-start justify-between">
+          <span aria-hidden className="font-mincho text-5xl text-beni/80">{category.isMedical ? "医" : "工"}</span>
+          <ArrowUpRight className="h-5 w-5 text-faint transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-beni" />
+        </div>
+      )}
       <div>
-        <h3 className="text-xl font-semibold leading-tight">{category.name}</h3>
-        {category.tagline && <p className="mt-2 text-sm text-mute">{category.tagline}</p>}
-        <p className="mt-4 font-mono text-[0.7rem] uppercase tracking-[0.12em] text-faint">
-          {category.productCount ? `${category.productCount} listed` : "Sourcing on request"}
-        </p>
+        <h3 className="text-xl leading-tight">{category.name}</h3>
+        {category.tagline && <p className="mt-2 line-clamp-2 text-sm text-mute">{category.tagline}</p>}
+        <p className="mt-4 text-xs text-faint">{category.productCount ? `${category.productCount} ${category.productCount === 1 ? "product" : "products"}` : "Sourcing on request"}</p>
       </div>
     </Link>
   );
@@ -112,17 +129,16 @@ export function CategoryTile({ category, index }: { category: Category; index?: 
 
 export function CtaBand({ title = "Specify, compare and request a quote in one place.", text = "Send your bill of materials or a single model number. Our engineers respond with availability, lead time and documentation." }: { title?: string; text?: string }) {
   return (
-    <section className="shell mt-24">
-      <div className="relative overflow-hidden rounded-[2rem] bg-ink px-6 py-14 text-paper sm:px-12 sm:py-20">
-        <div aria-hidden className="absolute -right-24 -top-24 h-80 w-80 rounded-full bg-beni/90 blur-[2px]" />
-        <div aria-hidden className="absolute -right-24 -top-24 h-80 w-80 rounded-full border border-white/20" style={{ transform: "scale(1.35)" }} />
-        <div className="relative max-w-2xl">
-          <p className="eyebrow !text-silver">Request for quotation</p>
-          <h2 className="mt-5 text-3xl font-semibold sm:text-5xl sm:leading-[1.02]">{title}</h2>
-          <p className="mt-5 text-silver">{text}</p>
+    <section className="shell mt-28">
+      <div className="seigaiha relative overflow-hidden rounded-sm border border-line px-5 py-14 sm:px-14 sm:py-24">
+        <div aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-beni sm:-right-10 sm:-top-10 sm:h-96 sm:w-96" />
+        <div className="relative max-w-2xl rounded-sm bg-paper/90 p-6 backdrop-blur-sm sm:p-10">
+          <div className="flex items-center gap-4"><Hanko className="h-12 w-12" /><p className="eyebrow">Request for quotation</p></div>
+          <h2 className="mt-6 text-3xl sm:text-5xl sm:leading-[1.08]">{title}</h2>
+          <p className="mt-5 text-ink-2">{text}</p>
           <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/rfq" className="btn btn-red">Start an RFQ <ArrowRight className="h-4 w-4" /></Link>
-            <Link href="/products" className="btn border border-white/25 text-paper hover:border-white">Browse catalogue</Link>
+            <Link href="/rfq" className="btn btn-primary">Start a quote request <ArrowRight className="h-4 w-4" /></Link>
+            <Link href="/products" className="btn btn-ghost">Browse the catalogue</Link>
           </div>
         </div>
       </div>
@@ -152,8 +168,9 @@ export function Markdown({ text }: { text: string }) {
 
 export function Empty({ title, text, action }: { title: string; text: string; action?: { href: string; label: string } }) {
   return (
-    <div className="card grid-paper flex flex-col items-center px-6 py-16 text-center">
-      <p className="text-xl font-semibold">{title}</p>
+    <div className="asanoha flex flex-col items-center rounded-sm border border-line bg-white px-6 py-16 text-center">
+      <span aria-hidden className="font-mincho text-5xl text-beni/70">空</span>
+      <p className="mt-4 font-mincho text-xl font-semibold">{title}</p>
       <p className="mt-3 max-w-md text-mute">{text}</p>
       {action && <Link href={action.href} className="btn btn-primary mt-6">{action.label}<ArrowRight className="h-4 w-4" /></Link>}
     </div>

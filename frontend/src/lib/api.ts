@@ -1,5 +1,5 @@
 import "server-only";
-import type { Article, Category, CompanyDocument, Facets, Pagination, Product } from "./types";
+import type { Article, Category, CompanyDocument, Facets, Pagination, Product, SiteSettings } from "./types";
 
 const BASE = process.env.API_INTERNAL_URL || "http://localhost:5000/api";
 const TTL = 30_000;
@@ -48,6 +48,7 @@ export const api = {
   articles: (q: { page?: number; limit?: number; category?: string } = {}) => get<{ posts: Article[]; pagination: Pagination }>(`/articles${qs(q)}`),
   article: (slug: string) => get<{ post: Article; related: Article[] }>(`/articles/${encodeURIComponent(slug)}`),
   documents: () => get<{ documents: CompanyDocument[] }>("/documents/public"),
+  settings: () => get<{ settings: SiteSettings }>("/settings"),
 };
 
 // Pages degrade gracefully if the API is briefly unavailable instead of failing entirely.
@@ -58,3 +59,12 @@ export async function safe<T>(promise: Promise<T>, fallback: T): Promise<T> {
     return fallback;
   }
 }
+
+export const EMPTY_SETTINGS: SiteSettings = {
+  announcement: { text: "", href: "", active: false },
+  hero: { kicker: "", title: "", subtitle: "", kanji: "" },
+  contact: { email: "", phone: "", whatsapp: "", address: "", hours: "" },
+  social: { linkedin: "", facebook: "", instagram: "", youtube: "", x: "" },
+  home: { featuredCategories: [], statement: "" },
+};
+export const loadSettings = () => safe(api.settings(), { settings: EMPTY_SETTINGS }).then((r) => r.settings);

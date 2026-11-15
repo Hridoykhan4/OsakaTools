@@ -62,16 +62,16 @@ export default async function Products({ searchParams }: { searchParams: Promise
         <div>
           <p className="eyebrow">Category</p>
           <ul className="mt-4 space-y-1 text-sm">
-            <li><Link href={href(sp, { category: null })} className={`block rounded-lg px-2 py-1.5 ${!category ? "bg-ink text-paper" : "hover:bg-paper-2"}`}>All categories</Link></li>
+            <li><Link href={href(sp, { category: null })} className={`block rounded-lg px-2 py-1.5 ${!category ? "bg-beni text-white" : "hover:bg-paper-2"}`}>All categories</Link></li>
             {top.map((c) => (
               <li key={c._id}>
-                <Link href={href(sp, { category: c.slug })} className={`flex justify-between rounded-lg px-2 py-1.5 ${category === c.slug ? "bg-ink text-paper" : "hover:bg-paper-2"}`}>
+                <Link href={href(sp, { category: c.slug })} className={`flex justify-between rounded-lg px-2 py-1.5 ${category === c.slug ? "bg-beni text-white" : "hover:bg-paper-2"}`}>
                   <span>{c.name}</span><span className="font-mono text-xs opacity-60">{c.productCount || 0}</span>
                 </Link>
                 <ul className="ml-3 border-l border-line pl-2">
                   {childrenOf(c._id).filter((x) => x.productCount || category === x.slug).map((x) => (
                     <li key={x._id}>
-                      <Link href={href(sp, { category: x.slug })} className={`flex justify-between rounded-lg px-2 py-1 text-[0.82rem] ${category === x.slug ? "bg-ink text-paper" : "text-mute hover:bg-paper-2"}`}>
+                      <Link href={href(sp, { category: x.slug })} className={`flex justify-between rounded-lg px-2 py-1 text-[0.82rem] ${category === x.slug ? "bg-beni text-white" : "text-mute hover:bg-paper-2"}`}>
                         <span>{x.name}</span><span className="font-mono text-xs opacity-60">{x.productCount}</span>
                       </Link>
                     </li>
@@ -88,7 +88,7 @@ export default async function Products({ searchParams }: { searchParams: Promise
               {facets.manufacturers.map((m) => (
                 <li key={m.name}>
                   <Link href={href(sp, { manufacturer: manufacturer === m.name ? null : m.name })} aria-current={manufacturer === m.name || undefined}
-                    className={`flex justify-between rounded-lg px-2 py-1.5 ${manufacturer === m.name ? "bg-ink text-paper" : "hover:bg-paper-2"}`}>
+                    className={`flex justify-between rounded-lg px-2 py-1.5 ${manufacturer === m.name ? "bg-beni text-white" : "hover:bg-paper-2"}`}>
                     <span>{m.name}</span><span className="font-mono text-xs opacity-60">{m.count}</span>
                   </Link>
                 </li>
@@ -105,7 +105,7 @@ export default async function Products({ searchParams }: { searchParams: Promise
                 const on = specs.includes(key);
                 return (
                   <Link key={key} href={href(sp, { spec: on ? specs.filter((s) => s !== key) : [...specs, key] })} aria-current={on || undefined}
-                    className={`rounded-full border px-3 py-1 font-mono text-xs ${on ? "border-ink bg-ink text-paper" : "border-line hover:border-ink"}`}>
+                    className={`rounded-full border px-3 py-1 font-mono text-xs ${on ? "border-ink bg-beni text-white" : "border-line hover:border-ink"}`}>
                     {v.value} <span className="opacity-50">({v.count})</span>
                   </Link>
                 );
@@ -148,7 +148,7 @@ export default async function Products({ searchParams }: { searchParams: Promise
             <p className="text-sm text-mute"><span className="font-mono text-ink">{pagination.total}</span> {pagination.total === 1 ? "product" : "products"}</p>
             <div className="flex items-center gap-1 text-sm">
               {[["", "Recommended"], ["newest", "Newest"], ["name", "A–Z"]].map(([value, label]) => (
-                <Link key={value} href={href(sp, { sort: value || null })} className={`rounded-full px-3 py-1.5 ${sort === value ? "bg-ink text-paper" : "hover:bg-paper-2"}`}>{label}</Link>
+                <Link key={value} href={href(sp, { sort: value || null })} className={`rounded-full px-3 py-1.5 ${sort === value ? "bg-beni text-white" : "hover:bg-paper-2"}`}>{label}</Link>
               ))}
             </div>
           </div>
@@ -176,7 +176,7 @@ export default async function Products({ searchParams }: { searchParams: Promise
             <nav className="mt-12 flex items-center justify-center gap-2" aria-label="Pagination">
               {Array.from({ length: pagination.pages }, (_, i) => i + 1).map((n) => (
                 <Link key={n} href={n === 1 ? href(sp, {}) : href(sp, { page: String(n) })} aria-current={n === page ? "page" : undefined}
-                  className={`grid h-10 w-10 place-items-center rounded-full font-mono text-sm ${n === page ? "bg-ink text-paper" : "border border-line hover:border-ink"}`}>{n}</Link>
+                  className={`grid h-10 w-10 place-items-center rounded-full font-mono text-sm ${n === page ? "bg-beni text-white" : "border border-line hover:border-ink"}`}>{n}</Link>
               ))}
             </nav>
           )}

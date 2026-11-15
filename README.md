@@ -6,7 +6,7 @@ Website, product catalogue and operations dashboard for **OSAKA TOOL**: test and
 
 | Area | Technology |
 | --- | --- |
-| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4 |
+| Frontend | Next.js 16 (App Router), React 19, TypeScript, Tailwind CSS 4, GSAP + ScrollTrigger, Lenis |
 | API | Node.js 22, Express 4 |
 | Database | MongoDB (Mongoose), database `osaka_tool` |
 | Media | Cloudinary (images and PDF documents) |
@@ -22,6 +22,7 @@ The browser talks to the API through the website's own `/api` proxy, so the site
 - Analytics and an attention queue.
 - Products: editor, bulk actions, publication workflow, specification editor, multi-image and PDF management, compliance and medical-market fields, SEO controls and change history.
 - Categories, brands, imports, documents and evidence, RFQs and inquiries, organizations, articles, users and roles, audit log, and search indexing.
+- Site settings: homepage hero copy and vertical kanji, brand statement, announcement bar, contact channels, social links and the order of homepage product families.
 
 **Integrity rules enforced by the API**:
 - Every product names its actual manufacturer.
@@ -79,6 +80,11 @@ npm run build --prefix frontend
 - Copies images into Cloudinary.
 
 Medical devices always land in review. Add more sources by adding an adapter with `fetchAll()` and `normalize()`.
+
+Two more one-off, idempotent scripts fill the catalogue:
+
+- `npm run import:legacy --prefix backend` (dry run) and `node src/scripts/import-legacy.js commit`: copies the company's legacy fire-protection catalogue (13 categories, 63 products) from the legacy database into `osaka_tool`. The legacy database is only read. Images are copied into the `OsakaTool/` Cloudinary folder. Listed approvals carried over from the legacy catalogue are flagged in each product's review notes until their certificates are uploaded.
+- `npm run seed:range --prefix backend`: creates the OSAKA TOOL house-range lines (multimeters, clamp meters, testers, oscilloscopes, soldering, calipers, gauges, thermometers, blood pressure monitors, glucose meters, pulse oximeters) as **drafts**. Add photos, the datasheet, model number and the private-label evidence in the dashboard, then publish. Medical lines also need a registered market with evidence.
 
 ## Deployment
 

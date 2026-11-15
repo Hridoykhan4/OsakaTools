@@ -8,7 +8,7 @@ export default function Reveal() {
   const pathname = usePathname();
   useEffect(() => {
     document.documentElement.classList.add("js");
-    const els = document.querySelectorAll<HTMLElement>(".reveal:not(.is-in)");
+    const els = document.querySelectorAll<HTMLElement>(".reveal:not(.is-in), .shoji:not(.is-in)");
     if (!("IntersectionObserver" in window)) { els.forEach((el) => el.classList.add("is-in")); return; }
     const io = new IntersectionObserver((entries) => {
       for (const e of entries) if (e.isIntersecting) { e.target.classList.add("is-in"); io.unobserve(e.target); }

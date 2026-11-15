@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import InquiryForm from "@/components/InquiryForm";
+import { familyWord } from "@/components/brand";
 import { CategoryTile, CtaBand, Markdown, PageHero, ProductCard, SectionHead } from "@/components/ui";
 import { api, ApiError, safe } from "@/lib/api";
 import { collectionSchema, pageMetadata } from "@/lib/seo";
@@ -36,9 +37,9 @@ export default async function CategoryPage({ params }: Params) {
   return (
     <>
       <JsonLd data={collectionSchema(`/categories/${c.slug}`, c.name, products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
-      <PageHero eyebrow={parent ? parent.name : "Product family"} title={c.name} intro={c.description} crumbs={crumbs}>
+      <PageHero eyebrow={parent ? parent.name : "Product family"} title={c.name} intro={c.description} crumbs={crumbs} kanji={familyWord(parent?.slug || c.slug)}>
         {c.isMedical && (
-          <p className="mt-8 inline-flex max-w-2xl items-start gap-3 rounded-2xl border border-ai/30 bg-ai-soft p-4 text-sm text-ink-2">
+          <p className="mt-8 inline-flex max-w-2xl items-start gap-3 rounded-sm border border-ai/30 bg-ai-soft p-4 text-sm text-ink-2">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-ai" />Medical devices are listed only with documented market registration, and each listing names the markets where the device may be supplied.
           </p>
         )}
@@ -57,7 +58,7 @@ export default async function CategoryPage({ params }: Params) {
         {products.length > 0 ? (
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{products.map((p) => <ProductCard key={p._id} product={p} />)}</div>
         ) : (
-          <div className="mt-8 grid gap-8 rounded-[2rem] border border-line bg-white p-6 sm:p-10 lg:grid-cols-12">
+          <div className="mt-8 grid gap-8 rounded-sm border border-line bg-white p-6 sm:p-10 lg:grid-cols-12">
             <div className="lg:col-span-5">
               <p className="text-xl font-semibold">Listings for this category are being prepared.</p>
               <p className="mt-3 text-mute">Our sourcing desk supplies {c.name.toLowerCase()} to specification now. Share the model, standard or measurement range you need, and we will confirm availability, manufacturer and documentation.</p>
@@ -80,7 +81,7 @@ export default async function CategoryPage({ params }: Params) {
           <div className="mt-8 grid gap-4 md:grid-cols-3">
             {posts.map((post) => (
               <Link key={post._id} href={`/resources/${post.slug}`} className="group card p-6 transition hover:border-ink">
-                <p className="font-mono text-[0.68rem] uppercase tracking-[0.12em] text-beni">{post.category}</p>
+                <p className="text-xs text-beni">{post.category}</p>
                 <p className="mt-3 font-semibold leading-snug">{post.title}</p>
                 <ArrowUpRight className="mt-6 h-4 w-4 text-faint group-hover:text-beni" />
               </Link>

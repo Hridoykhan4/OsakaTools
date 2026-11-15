@@ -48,8 +48,8 @@ export default function SearchPalette({ open, onClose }: { open: boolean; onClos
   };
 
   return (
-    <div className="fixed inset-0 z-[70] flex items-start justify-center bg-ink/40 p-4 pt-[12vh] backdrop-blur-sm" onClick={onClose} role="dialog" aria-modal="true" aria-label="Search products">
-      <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-line bg-paper shadow-2xl" onClick={(e) => e.stopPropagation()}>
+    <div className="fixed inset-0 z-[70] flex items-start justify-center bg-paper/70 p-4 pt-[12vh] backdrop-blur-sm" onClick={onClose} role="dialog" aria-modal="true" aria-label="Search products">
+      <div className="w-full max-w-2xl overflow-hidden rounded-sm border border-line bg-paper shadow-2xl" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center gap-3 border-b border-line px-5">
           <Search className="h-5 w-5 text-faint" />
           <input

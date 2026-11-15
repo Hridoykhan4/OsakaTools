@@ -21,6 +21,7 @@ export const PERMISSIONS = {
   "media:write": "editor",
   "indexing:write": "admin",
   "audit:read": "admin",
+  "settings:manage": "admin",
   "users:manage": "owner",
 };
 

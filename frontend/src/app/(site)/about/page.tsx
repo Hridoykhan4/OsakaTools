@@ -41,7 +41,7 @@ export default async function About() {
 
       <section className="shell mt-24">
         <SectionHead eyebrow="Principles" title="What we stand behind" />
-        <div className="mt-10 grid gap-px overflow-hidden rounded-3xl border border-line bg-line sm:grid-cols-2">
+        <div className="mt-10 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {VALUES.map(([t, d], i) => (
             <div key={t} className="reveal bg-paper p-8">
               <span className="font-mono text-sm text-beni">{String(i + 1).padStart(2, "0")}</span>

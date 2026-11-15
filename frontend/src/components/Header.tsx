@@ -11,7 +11,7 @@ import { useRfq } from "@/lib/client-store";
 
 export interface NavCategory { slug: string; name: string; icon?: string; tagline?: string; children: { slug: string; name: string }[] }
 
-export default function Header({ categories }: { categories: NavCategory[] }) {
+export default function Header({ categories, announcement }: { categories: NavCategory[]; announcement?: { text: string; href: string; active: boolean } }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mega, setMega] = useState(false);
@@ -37,14 +37,21 @@ export default function Header({ categories }: { categories: NavCategory[] }) {
 
   return (
     <>
-      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-ink focus:px-4 focus:py-2 focus:text-paper">
+      <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-full focus:bg-beni focus:px-4 focus:py-2 focus:text-white">
         Skip to content
       </a>
+      {announcement?.active && announcement.text && (
+        <div className="relative z-50 border-b border-beni/20 bg-beni-soft text-center text-[0.82rem] text-beni">
+          <div className="shell py-2">
+            {announcement.href ? <Link href={announcement.href} className="underline-offset-4 hover:underline">{announcement.text}</Link> : announcement.text}
+          </div>
+        </div>
+      )}
       <header
         className={`sticky top-0 z-50 border-b transition-colors duration-300 ${scrolled || mega ? "border-line bg-paper/90 backdrop-blur-xl" : "border-transparent bg-paper/0"}`}
         onMouseLeave={() => setMega(false)}
       >
-        <div className="shell flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
+        <div className="shell flex h-16 items-center justify-between gap-3 sm:gap-6 lg:h-[4.5rem]">
           <Link href="/" aria-label="OSAKA TOOL home" className="shrink-0"><Logo /></Link>
 
           <nav aria-label="Primary" className="hidden items-center gap-1 lg:flex">
@@ -63,7 +70,7 @@ export default function Header({ categories }: { categories: NavCategory[] }) {
             ))}
           </nav>
 
-          <div className="flex items-center gap-1.5">
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-1.5">
             <button onClick={() => setSearch(true)} className="inline-flex h-10 items-center gap-2 rounded-full px-3 text-sm text-ink-2 transition hover:bg-paper-2" aria-label="Search products">
               <Search className="h-[1.1rem] w-[1.1rem]" />
               <kbd className="hidden rounded border border-line px-1.5 font-mono text-[0.65rem] text-faint xl:inline">Ctrl K</kbd>
@@ -86,7 +93,7 @@ export default function Header({ categories }: { categories: NavCategory[] }) {
           <div className="shell grid grid-cols-12 gap-8 py-10">
             <div className="col-span-3 border-r border-line pr-8">
               <p className="eyebrow">Catalogue</p>
-              <p className="mt-4 text-2xl font-semibold leading-tight">Instruments engineered for measurable confidence.</p>
+              <p className="mt-4 font-mincho text-2xl font-semibold leading-tight">Instruments and systems, specified to the last detail.</p>
               <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-beni">All products <ArrowRight className="h-4 w-4" /></Link>
             </div>
             <div className="col-span-9 grid grid-cols-3 gap-x-8 gap-y-7">
@@ -118,7 +125,7 @@ export default function Header({ categories }: { categories: NavCategory[] }) {
           <ul className="border-t border-line">
             {NAV.map((item) => (
               <li key={item.href} className="border-b border-line">
-                <Link href={item.href} className="flex items-center justify-between py-4 text-2xl font-medium tracking-tight">
+                <Link href={item.href} className="flex items-center justify-between py-4 font-mincho text-2xl font-semibold">
                   {item.label}<ArrowRight className="h-5 w-5 text-faint" />
                 </Link>
               </li>

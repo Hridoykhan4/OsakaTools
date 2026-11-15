@@ -29,11 +29,11 @@ export default async function Compare({ searchParams }: { searchParams: Promise<
         {products.length < 2 ? (
           <Empty title="Choose at least two products" text="Use the compare button on any product card or product page. Your selection appears in the bar at the bottom of the screen." action={{ href: "/products", label: "Browse products" }} />
         ) : (
-          <div className="overflow-x-auto rounded-3xl border border-line bg-white">
+          <div className="overflow-x-auto rounded-sm border border-line bg-white">
             <table className="w-full min-w-[640px] text-sm">
               <thead>
                 <tr>
-                  <th className="sticky left-0 w-48 bg-white p-5 text-left align-bottom font-mono text-xs uppercase tracking-[0.12em] text-faint">Specification</th>
+                  <th className="sticky left-0 w-48 bg-white p-5 text-left align-bottom text-xs text-faint">Specification</th>
                   {products.map((p) => (
                     <th key={p._id} className="p-5 text-left align-top font-normal">
                       <div className="relative mb-3 h-28 w-full">{p.images[0] && <Image src={p.images[0].url} alt="" fill sizes="200px" className="object-contain" />}</div>

@@ -5,7 +5,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   Building2, ClipboardList, Download, FileCheck2, FolderTree, Gauge, History, LayoutDashboard, LogOut, Menu, Newspaper,
-  Package, Radar, Tags, Users, X,
+  Package, Radar, Settings2, Tags, Users, X,
 } from "lucide-react";
 import { Logo } from "@/components/brand";
 import { admin } from "@/lib/adminApi";
@@ -26,6 +26,7 @@ const NAV = [
     { href: "/admin/organizations", label: "Organizations", icon: Building2, perm: "dashboard:read" },
   ] },
   { group: "Content & system", items: [
+    { href: "/admin/settings", label: "Site settings", icon: Settings2, perm: "dashboard:read" },
     { href: "/admin/articles", label: "Articles", icon: Newspaper, perm: "dashboard:read" },
     { href: "/admin/search-indexing", label: "Search indexing", icon: Radar, perm: "dashboard:read" },
     { href: "/admin/audit", label: "Audit log", icon: History, perm: "audit:read" },
@@ -79,7 +80,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                 {items.map(({ href, label, icon: Icon }) => (
                   <li key={href}>
                     <Link href={href} aria-current={active(href) ? "page" : undefined}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${active(href) ? "bg-ink text-paper" : "text-ink-2 hover:bg-paper-2"}`}>
+                      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition ${active(href) ? "bg-beni text-white" : "text-ink-2 hover:bg-paper-2"}`}>
                       <Icon className="h-4 w-4" strokeWidth={1.6} />{label}
                     </Link>
                   </li>
@@ -105,7 +106,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
       <ToastProvider>
         <div className="min-h-screen bg-paper lg:flex">
           <aside className="sticky top-0 hidden h-screen w-64 shrink-0 border-r border-line bg-white lg:block">{sidebar}</aside>
-          {open && <div className="fixed inset-0 z-50 bg-ink/40 lg:hidden" onClick={() => setOpen(false)} />}
+          {open && <div className="fixed inset-0 z-50 bg-paper/70 lg:hidden" onClick={() => setOpen(false)} />}
           <aside className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-line bg-white transition-transform lg:hidden ${open ? "translate-x-0" : "-translate-x-full"}`}>{sidebar}</aside>
           <div className="min-w-0 flex-1">
             <header className="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-line bg-paper/90 px-4 backdrop-blur lg:hidden">

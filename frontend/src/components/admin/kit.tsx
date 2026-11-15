@@ -50,7 +50,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       {children}
       <div className="fixed bottom-4 right-4 z-[90] flex w-[min(24rem,calc(100vw-2rem))] flex-col gap-2" aria-live="polite">
         {toasts.map((t) => (
-          <div key={t.id} className={`rounded-xl px-4 py-3 text-sm text-white shadow-lg ${t.tone === "ok" ? "bg-ink" : "bg-beni"}`}>{t.text}</div>
+          <div key={t.id} className={`rounded-xl px-4 py-3 text-sm text-white shadow-lg ${t.tone === "ok" ? "bg-ok" : "bg-beni"}`}>{t.text}</div>
         ))}
       </div>
     </ToastContext.Provider>
@@ -122,7 +122,7 @@ export function Modal({ open, onClose, title, children, wide = false }: { open: 
   }, [open, onClose]);
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-ink/40 backdrop-blur-sm sm:items-center sm:p-4" onClick={onClose}>
+    <div className="fixed inset-0 z-[80] flex items-end justify-center bg-paper/70 backdrop-blur-sm sm:items-center sm:p-4" onClick={onClose}>
       <div role="dialog" aria-modal="true" aria-label={title} onClick={(e) => e.stopPropagation()}
         className={`max-h-[92dvh] w-full overflow-y-auto rounded-t-3xl bg-paper p-6 shadow-2xl sm:rounded-3xl ${wide ? "sm:max-w-3xl" : "sm:max-w-lg"}`}>
         <div className="mb-5 flex items-center justify-between">
@@ -144,6 +144,6 @@ export function StateView({ loading, error, empty, children }: { loading: boolea
 
 export const fmtDate = (d?: string | null) => (d ? new Date(d).toLocaleString("en-GB", { dateStyle: "medium", timeStyle: "short" }) : "—");
 export const btn = "inline-flex items-center justify-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition disabled:opacity-50";
-export const btnPrimary = `${btn} bg-ink text-paper hover:bg-beni`;
+export const btnPrimary = `${btn} bg-beni text-white hover:bg-beni-dark`;
 export const btnGhost = `${btn} border border-line bg-white hover:border-ink`;
 export const btnDanger = `${btn} border border-beni/30 text-beni hover:bg-beni hover:text-white`;

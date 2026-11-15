@@ -1,13 +1,15 @@
 import type { Metadata, Viewport } from "next";
-import { Inter_Tight, JetBrains_Mono, Noto_Sans_JP } from "next/font/google";
+import { JetBrains_Mono, Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
 import { site } from "@/lib/site";
 
-const interTight = Inter_Tight({ subsets: ["latin"], variable: "--font-inter-tight", display: "swap" });
+// Shippori Mincho for display type (Japanese Mincho serif with matching Latin);
+// Zen Kaku Gothic New for reading text; JetBrains Mono only for specification values.
+const shippori = Shippori_Mincho_B1({ subsets: ["latin"], variable: "--font-shippori", display: "swap", weight: ["500", "600", "800"] });
+const zen = Zen_Kaku_Gothic_New({ subsets: ["latin"], variable: "--font-zen", display: "swap", weight: ["400", "500", "700"] });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains", display: "swap", weight: ["400", "500"] });
-const notoJp = Noto_Sans_JP({ subsets: ["latin"], variable: "--font-noto-jp", display: "swap", weight: ["500", "700"], preload: false });
 
-export const viewport: Viewport = { themeColor: "#f7f5f0", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#fbfaf7", width: "device-width", initialScale: 1 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
@@ -27,7 +29,13 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${interTight.variable} ${jetbrains.variable} ${notoJp.variable}`}>
+    <html lang="en" className={`${shippori.variable} ${zen.variable} ${jetbrains.variable}`}>
+      <head>
+        {/* Japanese glyphs for kanji marks: Google serves them as unicode-range slices, so only used characters download. */}
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font -- root App Router layout, loads on every page */}
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&display=swap" />
+      </head>
       <body className="min-h-screen antialiased">{children}</body>
     </html>
   );

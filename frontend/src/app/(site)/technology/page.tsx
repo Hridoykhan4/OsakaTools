@@ -24,11 +24,11 @@ export default function Technology() {
     <>
       <PageHero eyebrow="Engineering" title="Technology & engineering" kanji="精密" crumbs={[{ name: "Technology", path: "/technology" }]}
         intro="Precision is a discipline before it is a specification. These are the principles we apply to every product we select, describe and supply." />
-      <section className="shell mt-16 grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-3">
+      <section className="shell mt-16 grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-3">
         {PRINCIPLES.map((p) => (
           <div key={p.romaji} className="reveal bg-paper p-8 sm:p-10">
             <p className="font-jp text-4xl font-bold text-beni">{p.jp}</p>
-            <p className="mt-3 font-mono text-xs uppercase tracking-[0.14em] text-faint">{p.romaji}</p>
+            <p className="mt-3 text-xs text-faint">{p.romaji}</p>
             <h2 className="mt-6 text-xl font-semibold">{p.title}</h2>
             <p className="mt-3 text-sm leading-relaxed text-mute">{p.text}</p>
           </div>

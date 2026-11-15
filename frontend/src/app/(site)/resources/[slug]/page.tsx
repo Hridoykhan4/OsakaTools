@@ -37,7 +37,7 @@ export default async function Article({ params }: Params) {
             <p className="eyebrow mt-10">{post.category}</p>
             <h1 className="mt-5 text-4xl font-semibold leading-[1.05] sm:text-5xl">{post.title}</h1>
             <p className="mt-6 text-lg text-mute">{post.excerpt}</p>
-            <p className="mt-8 font-mono text-xs uppercase tracking-[0.12em] text-faint">
+            <p className="mt-8 text-xs text-faint">
               {post.author} · <time dateTime={post.publishedAt}>{new Date(post.publishedAt).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" })}</time> · {post.readingMinutes} min read
             </p>
           </div>

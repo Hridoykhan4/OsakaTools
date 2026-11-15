@@ -15,7 +15,7 @@ export default function Audit() {
     <>
       <PageHeader title="Audit log" subtitle="Every sign-in and change, with the actor, role and changed fields." />
       <div className="scrollbar-none mb-4 flex gap-1 overflow-x-auto">
-        {ENTITIES.map((e) => <button key={e} onClick={() => setF({ entity: e, page: 1 })} className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${f.entity === e ? "bg-ink text-paper" : "bg-white"}`}>{e || "All"}</button>)}
+        {ENTITIES.map((e) => <button key={e} onClick={() => setF({ entity: e, page: 1 })} className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${f.entity === e ? "bg-beni text-white" : "bg-white"}`}>{e || "All"}</button>)}
       </div>
       <StateView loading={loading} error={error} empty={!data?.logs.length}>
         <ul className="divide-y divide-line-2 rounded-2xl border border-line bg-white text-sm">

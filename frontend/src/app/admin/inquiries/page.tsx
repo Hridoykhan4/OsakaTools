@@ -41,9 +41,9 @@ export default function Inquiries() {
     <>
       <PageHeader title="RFQs & inquiries" subtitle={data ? `${data.pagination.total} inquiries · ${data.unread} unread` : undefined} />
       <div className="scrollbar-none mb-4 flex gap-1 overflow-x-auto">
-        <button onClick={() => setF({ ...f, status: "", page: 1 })} className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${!f.status ? "bg-ink text-paper" : "bg-white"}`}>All</button>
+        <button onClick={() => setF({ ...f, status: "", page: 1 })} className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${!f.status ? "bg-beni text-white" : "bg-white"}`}>All</button>
         {STATUSES.map((s) => (
-          <button key={s} onClick={() => setF({ ...f, status: s, page: 1 })} className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${f.status === s ? "bg-ink text-paper" : "bg-white"}`}>
+          <button key={s} onClick={() => setF({ ...f, status: s, page: 1 })} className={`shrink-0 rounded-full px-3 py-1.5 text-sm ${f.status === s ? "bg-beni text-white" : "bg-white"}`}>
             {s} <span className="font-mono text-xs opacity-60">{data?.byStatus[s] || 0}</span>
           </button>
         ))}

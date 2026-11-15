@@ -10,7 +10,9 @@
     "start": "node src/server.js",
     "seed": "node src/scripts/seed.js",
     "import:preview": "node src/scripts/import.js preview",
-    "import:commit": "node src/scripts/import.js commit"
+    "import:commit": "node src/scripts/import.js commit",
+    "import:legacy": "node src/scripts/import-legacy.js",
+    "seed:range": "node src/scripts/seed-range.js"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

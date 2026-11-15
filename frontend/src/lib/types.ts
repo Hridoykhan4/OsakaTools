@@ -64,3 +64,10 @@ export interface ImportJob { _id: string; source: string; mode: "preview" | "com
 
 export interface AdminUser { _id: string; username: string; name?: string; email?: string; role: string; active: boolean; lastLoginAt?: string; createdAt: string }
 export interface Session { id: string; username: string; name?: string; role: string; permissions: string[] }
+export interface SiteSettings {
+  announcement: { text: string; href: string; active: boolean };
+  hero: { kicker: string; title: string; subtitle: string; kanji: string };
+  contact: { email: string; phone: string; whatsapp: string; address: string; hours: string };
+  social: { linkedin: string; facebook: string; instagram: string; youtube: string; x: string };
+  home: { featuredCategories: string[]; statement: string };
+}

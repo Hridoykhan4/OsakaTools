@@ -31,7 +31,7 @@ export default async function Quality() {
 
       <section className="shell mt-16">
         <SectionHead eyebrow="Process" title="How a document reaches this page" />
-        <ol className="mt-10 grid gap-px overflow-hidden rounded-3xl border border-line bg-line md:grid-cols-4">
+        <ol className="mt-10 grid gap-px overflow-hidden rounded-sm border border-line bg-line md:grid-cols-4">
           {PROCESS.map(([t, d], i) => (
             <li key={t} className="bg-paper p-7"><span className="font-mono text-sm text-beni">{String(i + 1).padStart(2, "0")}</span><p className="mt-4 font-semibold">{t}</p><p className="mt-2 text-sm text-mute">{d}</p></li>
           ))}

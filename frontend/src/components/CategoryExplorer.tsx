@@ -20,7 +20,7 @@ export default function CategoryExplorer({ categories }: { categories: ExplorerC
         {categories.map((c, i) => (
           <button key={c.slug} role="tab" id={`tab-${c.slug}`} aria-selected={i === active} aria-controls="explorer-panel"
             onClick={() => setActive(i)} onMouseEnter={() => setActive(i)}
-            className={`group flex shrink-0 items-center gap-4 rounded-full border px-4 py-3 text-left transition lg:rounded-none lg:border-x-0 lg:border-t-0 lg:px-0 lg:py-5 ${i === active ? "border-ink bg-ink text-paper lg:border-line lg:bg-transparent lg:text-ink" : "border-line text-ink-2 lg:border-line"}`}>
+            className={`group flex shrink-0 items-center gap-4 rounded-full border px-4 py-3 text-left transition lg:rounded-none lg:border-x-0 lg:border-t-0 lg:px-0 lg:py-5 ${i === active ? "border-ink bg-beni text-white lg:border-line lg:bg-transparent lg:text-ink" : "border-line text-ink-2 lg:border-line"}`}>
             <span className={`hidden font-mono text-xs lg:inline ${i === active ? "text-beni" : "text-faint"}`}>{String(i + 1).padStart(2, "0")}</span>
             <CategoryIcon name={c.icon} className={`h-5 w-5 shrink-0 ${i === active ? "text-beni" : ""}`} />
             <span className="whitespace-nowrap text-sm font-medium lg:flex-1 lg:whitespace-normal lg:text-xl lg:font-semibold lg:tracking-tight">{c.name}</span>
@@ -33,7 +33,7 @@ export default function CategoryExplorer({ categories }: { categories: ExplorerC
         <p className="eyebrow">{current.productCount ? `${current.productCount} products listed` : "Specified sourcing"}</p>
         <h3 className="mt-4 text-3xl font-semibold sm:text-4xl">{current.name}</h3>
         <p className="mt-4 max-w-xl text-mute">{current.description || current.tagline}</p>
-        <ul className="mt-8 grid gap-px overflow-hidden rounded-2xl border border-line bg-line sm:grid-cols-2">
+        <ul className="mt-8 grid gap-px overflow-hidden rounded-sm border border-line bg-line sm:grid-cols-2">
           {current.children.map((child) => (
             <li key={child.slug} className="bg-white">
               <Link href={`/categories/${child.slug}`} className="group flex h-full items-start justify-between gap-4 p-5 transition hover:bg-paper">

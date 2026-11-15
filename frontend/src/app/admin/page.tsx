@@ -52,7 +52,7 @@ export default function Dashboard() {
                 <div className="flex h-40 items-end gap-1" role="img" aria-label={`${total30} inquiries in the last 30 days`}>
                   {data.inquiries.daily.map((d) => (
                     <div key={d.date} className="group relative flex-1">
-                      <div className="rounded-t bg-ink transition group-hover:bg-beni" style={{ height: `${Math.max(2, (d.count / maxDaily) * 150)}px` }} />
+                      <div className="rounded-t bg-beni/70 transition group-hover:bg-beni" style={{ height: `${Math.max(2, (d.count / maxDaily) * 150)}px` }} />
                       <span className="pointer-events-none absolute -top-7 left-1/2 hidden -translate-x-1/2 whitespace-nowrap rounded bg-ink px-1.5 py-0.5 font-mono text-[0.6rem] text-white group-hover:block">{d.date.slice(5)} · {d.count}</span>
                     </div>
                   ))}

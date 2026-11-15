@@ -62,18 +62,18 @@ export default async function ProductPage({ params }: Params) {
       <JsonLd data={schema} />
       <div className="shell pt-8"><Breadcrumbs items={crumbs} /></div>
 
-      <section className="shell mt-8 grid gap-10 lg:grid-cols-12 lg:gap-14">
-        <div className="lg:col-span-7"><ProductGallery images={p.images} name={p.name} /></div>
-        <div className="lg:col-span-5">
+      <section className="shell mt-8 grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-14">
+        <div className="min-w-0 lg:col-span-7"><ProductGallery images={p.images} name={p.name} /></div>
+        <div className="min-w-0 lg:col-span-5">
           <div className="lg:sticky lg:top-24">
-            {category && <Link href={`/categories/${category.slug}`} className="font-mono text-xs uppercase tracking-[0.14em] text-beni">{category.name}</Link>}
-            <h1 className="mt-3 text-3xl font-semibold leading-tight sm:text-[2.6rem] sm:leading-[1.05]">{p.name}</h1>
-            <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-2xl border border-line bg-line text-sm">
+            {category && <Link href={`/categories/${category.slug}`} className="text-sm text-beni hover:underline">{category.name}</Link>}
+            <h1 className="mt-3 font-mincho text-3xl font-semibold leading-tight sm:text-[2.8rem] sm:leading-[1.08]">{p.name}</h1>
+            <dl className="mt-6 grid grid-cols-2 gap-px overflow-hidden rounded-sm border border-line bg-line text-sm [&>div:last-child:nth-child(odd)]:col-span-2">
               {[["Manufacturer", p.manufacturer], ["Model", p.modelNumber], ["SKU", p.sku], ["Warranty", p.warranty],
                 ["Country of origin", p.originVerified ? p.countryOfOrigin : ""], ["Minimum order", p.moq && p.moq > 1 ? `${p.moq} units` : ""], ["Lead time", p.leadTime]]
                 .filter(([, v]) => v).map(([k, v]) => (
                   <div key={k} className="bg-white p-4">
-                    <dt className="font-mono text-[0.65rem] uppercase tracking-[0.12em] text-faint">{k}</dt>
+                    <dt className="text-xs text-faint">{k}</dt>
                     <dd className="mt-1 font-medium">{v}</dd>
                   </div>
                 ))}
@@ -81,7 +81,7 @@ export default async function ProductPage({ params }: Params) {
             {p.shortDescription && <p className="mt-6 leading-relaxed text-mute">{p.shortDescription}</p>}
 
             {p.regulatory?.isMedical && (
-              <div className="mt-6 rounded-2xl border border-ai/30 bg-ai-soft p-4 text-sm">
+              <div className="mt-6 rounded-sm border border-ai/30 bg-ai-soft p-4 text-sm">
                 <p className="flex items-center gap-2 font-semibold text-ai"><ShieldCheck className="h-4 w-4" />Medical device: market eligibility</p>
                 {registered.length ? (
                   <ul className="mt-2 space-y-1">{registered.map((m) => <li key={m.region}>{m.region}{m.authority ? ` · ${m.authority}` : ""}{m.registrationNo ? ` · ${m.registrationNo}` : ""}</li>)}</ul>
@@ -97,7 +97,7 @@ export default async function ProductPage({ params }: Params) {
         </div>
       </section>
 
-      <section className="shell mt-20 grid gap-12 lg:grid-cols-12">
+      <section className="shell mt-20 grid grid-cols-1 gap-12 lg:grid-cols-12">
         <div className="space-y-14 lg:col-span-8">
           {groups.length > 0 && (
             <div>
@@ -105,7 +105,7 @@ export default async function ProductPage({ params }: Params) {
               <div className="mt-8 space-y-8">
                 {groups.map(([group, specs]) => (
                   <div key={group}>
-                    <p className="font-mono text-xs uppercase tracking-[0.14em] text-faint">{group}</p>
+                    <p className="font-mincho text-base font-semibold">{group}</p>
                     <dl className="mt-3 divide-y divide-line border-y border-line">
                       {specs.map((s) => (
                         <div key={s.label} className="grid grid-cols-2 gap-4 py-3 text-sm">
@@ -137,7 +137,7 @@ export default async function ProductPage({ params }: Params) {
           )}
 
           {p.regulatory?.isMedical && p.regulatory.intendedUse && (
-            <div className="rounded-2xl border border-line p-6">
+            <div className="rounded-sm border border-line p-6">
               <p className="flex items-center gap-2 font-semibold"><AlertTriangle className="h-4 w-4 text-warn" />Intended use</p>
               <p className="mt-2 text-sm text-mute">{p.regulatory.intendedUse}</p>
             </div>
@@ -153,7 +153,7 @@ export default async function ProductPage({ params }: Params) {
                   <li key={d.url}>
                     <a href={d.url} target="_blank" rel="noopener" className="flex items-center gap-3 rounded-xl border border-line p-3 text-sm transition hover:border-ink">
                       <FileText className="h-5 w-5 shrink-0 text-beni" strokeWidth={1.5} />
-                      <span className="min-w-0 flex-1"><span className="block truncate font-medium">{d.title}</span><span className="font-mono text-xs uppercase text-faint">{d.kind}</span></span>
+                      <span className="min-w-0 flex-1"><span className="block truncate font-medium">{d.title}</span><span className="text-xs capitalize text-faint">{d.kind}</span></span>
                       <Download className="h-4 w-4 text-faint" />
                     </a>
                   </li>

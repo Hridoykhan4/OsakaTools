@@ -10,6 +10,7 @@ import * as inquiries from "../controllers/inquiry.controller.js";
 import * as blog from "../controllers/blog.controller.js";
 import * as uploads from "../controllers/upload.controller.js";
 import * as ops from "../controllers/ops.controller.js";
+import * as settings from "../controllers/settings.controller.js";
 
 const limiter = (windowMinutes, limit, message) => rateLimit({
   windowMs: windowMinutes * 60000, limit, standardHeaders: "draft-7", legacyHeaders: false, message: { message },
@@ -75,6 +76,10 @@ router.delete("/articles/:id", perm("catalog:delete"), blog.deletePost);
 router.post("/upload/single", perm("media:write"), upload.single("file"), uploads.uploadSingle);
 router.post("/upload/multiple", perm("media:write"), upload.array("files", 10), uploads.uploadMany);
 router.get("/media", perm("dashboard:read"), uploads.listMedia);
+
+// ---- site settings ----
+router.get("/settings", settings.getSettings);
+router.put("/settings", perm("settings:manage"), settings.updateSettings);
 
 // ---- operations ----
 router.get("/stats", perm("dashboard:read"), ops.stats);

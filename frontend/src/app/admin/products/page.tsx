@@ -54,7 +54,7 @@ export default function AdminProducts() {
       </div>
 
       {selected.length > 0 && can("catalog:write") && (
-        <div className="sticky top-14 z-30 mb-4 flex flex-wrap items-center gap-2 rounded-2xl bg-ink p-3 text-sm text-paper lg:top-2">
+        <div className="sticky top-14 z-30 mb-4 flex flex-wrap items-center gap-2 rounded-2xl border border-beni/30 bg-beni-soft p-3 text-sm text-ink lg:top-2">
           <span className="px-2 font-mono">{selected.length} selected</span>
           {can("catalog:publish") && <button disabled={busy} onClick={() => bulk("publish")} className="rounded-full bg-white/10 px-3 py-1.5 hover:bg-white/20">Publish</button>}
           <button disabled={busy} onClick={() => bulk("review")} className="rounded-full bg-white/10 px-3 py-1.5 hover:bg-white/20">Send to review</button>

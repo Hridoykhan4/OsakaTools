@@ -58,18 +58,18 @@ export function CompareBar() {
   if (items.length === 0) return null;
   return (
     <div className="fixed inset-x-0 bottom-4 z-40 px-4">
-      <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-full border border-line bg-ink/95 p-2 pl-5 text-paper shadow-2xl backdrop-blur">
+      <div className="mx-auto flex max-w-3xl items-center gap-3 rounded-full border border-line bg-white/95 p-2 pl-5 text-ink shadow-[0_20px_50px_-20px_rgba(22,24,27,0.35)] backdrop-blur">
         <GitCompareArrows className="h-4 w-4 shrink-0 text-silver" />
         <div className="scrollbar-none flex min-w-0 flex-1 gap-2 overflow-x-auto">
           {items.map((i) => (
-            <span key={i.slug} className="flex shrink-0 items-center gap-1.5 rounded-full bg-white/10 py-1 pl-3 pr-1.5 text-xs">
+            <span key={i.slug} className="flex shrink-0 items-center gap-1.5 rounded-full bg-paper-2 py-1 pl-3 pr-1.5 text-xs">
               <span className="max-w-[9rem] truncate">{i.name}</span>
-              <button onClick={() => toggle(i)} aria-label={`Remove ${i.name}`} className="rounded-full p-0.5 hover:bg-white/20"><X className="h-3 w-3" /></button>
+              <button onClick={() => toggle(i)} aria-label={`Remove ${i.name}`} className="rounded-full p-0.5 hover:bg-line"><X className="h-3 w-3" /></button>
             </span>
           ))}
         </div>
         <span className="hidden font-mono text-xs text-silver sm:inline">{items.length}/{COMPARE_LIMIT}</span>
-        <button onClick={clear} className="hidden text-xs text-silver hover:text-white sm:inline">Clear</button>
+        <button onClick={clear} className="hidden text-xs text-mute hover:text-ink sm:inline">Clear</button>
         <Link href={`/compare?p=${items.map((i) => i.slug).join(",")}`} className="btn btn-red !min-h-9 !py-1.5 text-sm">Compare</Link>
       </div>
     </div>

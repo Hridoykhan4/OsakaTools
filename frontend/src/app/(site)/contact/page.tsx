@@ -22,7 +22,7 @@ export default function Contact() {
         <aside className="space-y-4 lg:col-span-4">
           <a href={`mailto:${site.email}`} className="card flex items-center gap-4 p-5 transition hover:border-ink">
             <Mail className="h-6 w-6 text-beni" strokeWidth={1.4} />
-            <span><span className="block text-xs uppercase tracking-wide text-faint">Email</span><span className="font-mono">{site.email}</span></span>
+            <span><span className="block text-xs text-faint">Email</span><span className="font-mono">{site.email}</span></span>
           </a>
           {ROUTES.map(({ icon: Icon, title, text, href, cta }) => (
             <div key={title} className="card p-5">

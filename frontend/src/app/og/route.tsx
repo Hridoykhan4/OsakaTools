@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 export function GET(request: Request) {
   const title = (new URL(request.url).searchParams.get("title") || "Precision instruments for professionals worldwide").slice(0, 110);
   return new ImageResponse(
-    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#f7f5f0", color: "#16181b", fontFamily: "sans-serif" }}>
+    <div style={{ width: "100%", height: "100%", display: "flex", flexDirection: "column", justifyContent: "space-between", padding: 72, background: "#fbfaf7", color: "#17181a", fontFamily: "sans-serif" }}>
       <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
         <div style={{ width: 56, height: 56, borderRadius: 999, background: "#bc002d" }} />
         <div style={{ fontSize: 34, letterSpacing: 10, fontWeight: 700 }}>OSAKA TOOL</div>

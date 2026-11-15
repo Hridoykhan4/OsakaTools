@@ -36,7 +36,7 @@ export default function Documents() {
         actions={can("documents:write") && <button onClick={() => setEdit({ type: "certificate", public: false })} className={btnPrimary}><Plus className="h-4 w-4" />Add document</button>} />
       <div className="mb-4 flex flex-wrap gap-1">
         {["", "pending", "verified", "rejected", "expired"].map((s) => (
-          <button key={s} onClick={() => setStatus(s)} className={`rounded-full px-3 py-1.5 text-sm ${status === s ? "bg-ink text-paper" : "bg-white hover:bg-paper-2"}`}>{s || "All"}</button>
+          <button key={s} onClick={() => setStatus(s)} className={`rounded-full px-3 py-1.5 text-sm ${status === s ? "bg-beni text-white" : "bg-white hover:bg-paper-2"}`}>{s || "All"}</button>
         ))}
       </div>
       <StateView loading={loading} error={error} empty={!data?.documents.length}>
