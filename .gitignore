@@ -1,0 +1,22 @@
+node_modules/
+
+# Local environment and runtime files
+.env
+.env.*
+!.env.example
+
+# Logs and generated output
+*.log
+.DS_Store
+coverage/
+dist/
+build/
+.next/
+
+# Isolated SEO validation build and artifacts
+.next-seo/
+.seo-artifacts/
+__pycache__/
+
+# Local verification builds
+.next-verify/
