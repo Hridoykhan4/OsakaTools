@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { JetBrains_Mono, Shippori_Mincho_B1, Zen_Kaku_Gothic_New } from "next/font/google";
 import "./globals.css";
+import FontLoader from "@/components/FontLoader";
 import { site } from "@/lib/site";
 
 // Shippori Mincho for display type (Japanese Mincho serif with matching Latin);
@@ -31,12 +32,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className={`${shippori.variable} ${zen.variable} ${jetbrains.variable}`}>
       <head>
-        {/* Japanese glyphs for kanji marks: Google serves them as unicode-range slices, so only used characters download. */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font -- root App Router layout, loads on every page */}
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&display=swap" />
+        <link rel="preconnect" href="https://res.cloudinary.com" />
       </head>
-      <body className="min-h-screen antialiased">{children}</body>
+      <body className="min-h-screen antialiased"><FontLoader />{children}</body>
     </html>
   );
 }

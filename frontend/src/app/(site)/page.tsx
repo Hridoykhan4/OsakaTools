@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import HeroSun from "@/components/motion/HeroSun";
-import Emaki, { type EmakiFamily } from "@/components/motion/Emaki";
+import FamilyBento, { type Family } from "@/components/FamilyBento";
 import WordReveal from "@/components/motion/WordReveal";
 import Magnetic from "@/components/motion/Magnetic";
 import InquiryForm from "@/components/InquiryForm";
@@ -48,7 +48,7 @@ export default async function Home() {
   // Without an admin choice, lead with the families that have the most to show.
   const familyList = chosen.length ? chosen : [...top].sort((a, b) => (b.productCount || 0) - (a.productCount || 0) || a.order - b.order);
   const samples = await Promise.all(familyList.map((f) => safe(api.products({ category: f.slug, limit: 3 }), EMPTY)));
-  const families: EmakiFamily[] = familyList.map((f, i) => ({
+  const families: Family[] = familyList.map((f, i) => ({
     slug: f.slug, name: f.name, kanji: familyKanji(f.slug), tagline: f.tagline, count: f.productCount || 0,
     children: categories.filter((x) => parentId(x) === f._id).map((x) => ({ slug: x.slug, name: x.name })),
     images: samples[i].products.filter((p) => p.images[0]).map((p) => ({ url: p.images[0].url, alt: p.name })),
@@ -82,7 +82,7 @@ export default async function Home() {
         </div>
       </div>
 
-      <Emaki families={families} />
+      <FamilyBento families={families} />
 
       {/* Statement */}
       <section className="shell grid gap-10 py-28 sm:py-40 lg:grid-cols-12">

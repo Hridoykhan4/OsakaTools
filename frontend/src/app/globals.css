@@ -38,6 +38,10 @@
 
 @keyframes spin-rev { to { transform: rotate(-360deg); } }
 @keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes rise { from { transform: translateY(112%); } }
+@keyframes intro-fade { from { opacity: 0; transform: translateY(14px); } }
+@keyframes horizon { from { transform: scaleX(0); } }
+@keyframes ink { from { opacity: .14; } to { opacity: 1; } }
 
 @layer base {
   html { -webkit-text-size-adjust: 100%; }
@@ -133,15 +137,29 @@
   .prose-tech li::before { content: ""; position: absolute; left: .1rem; top: .72em; width: .4rem; height: .4rem; border-radius: 99px; background: var(--color-beni); }
   .prose-tech strong { color: var(--color-ink); font-weight: 700; }
 
-  /* Scroll reveal: visible without JS and with reduced motion. */
-  .reveal { opacity: 1; transform: none; }
-  .js .reveal:not(.is-in) { opacity: 0; transform: translateY(14px); }
-  .js .reveal { transition: opacity 1s var(--ease-precise), transform 1s var(--ease-precise); }
+  /* Scroll reveal, driven by the compositor (no JavaScript). Unsupported browsers show content as is. */
+  @supports (animation-timeline: view()) {
+    .reveal { animation: intro-fade linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+  }
 
-  /* Image wipe: a paper panel slides off revealing the picture, like a shoji door opening. */
-  .shoji { position: relative; overflow: hidden; }
-  .js .shoji::after { content: ""; position: absolute; inset: 0; background: var(--color-paper-2); transform-origin: right; transition: transform 1.1s var(--ease-brush); }
-  .js .shoji.is-in::after { transform: scaleX(0); }
+  /* Load choreography in pure CSS: runs from first paint, no JavaScript needed. */
+  .rise { animation: rise 1.05s var(--ease-precise) both; }
+  .intro-fade { animation: intro-fade 1s var(--ease-precise) both; }
+  .horizon { animation: horizon 1.6s var(--ease-brush) .1s both; }
+
+  /* Words ink in as they cross the viewport (scroll-driven, where supported). */
+  @supports (animation-timeline: view()) {
+    .ink-words > span { animation: ink linear both; animation-timeline: view(); animation-range: entry 0% cover 42%; }
+  }
+
+  /* 3D tilt surfaces: --rx/--ry are set from the pointer by <Tilt>. */
+  .tilt { transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transform-style: preserve-3d; transition: transform .6s var(--ease-precise); will-change: transform; }
+  .tilt.is-active { transition: transform .12s linear; }
+  .tilt .z-1 { transform: translateZ(24px); }
+  .tilt .z-2 { transform: translateZ(54px); }
+  .tilt .z-3 { transform: translateZ(80px); }
+  .tilt .sheen { background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.55), transparent 40%); opacity: 0; transition: opacity .4s; }
+  .tilt.is-active .sheen { opacity: 1; }
 
   .scrollbar-none { scrollbar-width: none; }
   .scrollbar-none::-webkit-scrollbar { display: none; }
@@ -149,6 +167,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
-  .js .reveal:not(.is-in) { opacity: 1; transform: none; }
-  .js .shoji::after { transform: scaleX(0); }
+  .reveal { animation: none !important; }
 }

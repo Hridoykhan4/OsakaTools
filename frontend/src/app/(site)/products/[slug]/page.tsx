@@ -188,3 +188,6 @@ export default async function ProductPage({ params }: Params) {
     </>
   );
 }
+
+// Rendered on first request, then cached and refreshed in the background (ISR).
+export async function generateStaticParams() { return []; }

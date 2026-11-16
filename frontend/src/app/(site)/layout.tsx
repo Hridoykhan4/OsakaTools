@@ -1,15 +1,13 @@
 import Header, { type NavCategory } from "@/components/Header";
 import Footer from "@/components/Footer";
-import Reveal from "@/components/Reveal";
-import SmoothScroll from "@/components/motion/SmoothScroll";
 import JsonLd from "@/components/JsonLd";
 import { CompareBar } from "@/components/ProductActions";
 import { api, loadSettings, safe } from "@/lib/api";
 import { absoluteUrl, entityId, websiteId } from "@/lib/seo";
 import { site } from "@/lib/site";
 
-// Rendered per request against the in-process API cache; nothing depends on the API at build time.
-export const dynamic = "force-dynamic";
+// Incremental static regeneration: pages are served from cache and rebuilt in the background.
+export const revalidate = 60;
 
 export default async function SiteLayout({ children }: { children: React.ReactNode }) {
   const [{ categories }, settings] = await Promise.all([safe(api.categories(), { categories: [] }), loadSettings()]);
@@ -36,8 +34,6 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <main id="main" className="flex-1">{children}</main>
       <Footer settings={settings} />
       <CompareBar />
-      <Reveal />
-      <SmoothScroll />
     </div>
   );
 }

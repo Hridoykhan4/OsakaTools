@@ -44,7 +44,8 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
-    formats: ["image/avif", "image/webp"],
+    loader: "custom",
+    loaderFile: "./src/lib/image-loader.ts",
     remotePatterns: [
       { protocol: "https", hostname: "res.cloudinary.com" },
       { protocol: "https", hostname: "api.primegadgets.ae" },

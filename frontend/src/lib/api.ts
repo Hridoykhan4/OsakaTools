@@ -2,29 +2,22 @@ import "server-only";
 import type { Article, Category, CompanyDocument, Facets, Pagination, Product, SiteSettings } from "./types";
 
 const BASE = process.env.API_INTERNAL_URL || "http://localhost:5000/api";
-const TTL = 30_000;
-
-// Small in-process cache for public GETs. Pages render dynamically (no build-time
-// coupling to the API), while repeated requests stay fast.
-const cache = new Map<string, { at: number; value: unknown }>();
+// Public pages use incremental static regeneration: responses are cached and
+// refreshed in the background every 60 seconds, so visitors never wait on the API.
+export const REVALIDATE = 60;
 
 export class ApiError extends Error {
   constructor(message: string, public status: number) { super(message); }
 }
 
 async function get<T>(path: string): Promise<T> {
-  const hit = cache.get(path);
-  if (hit && Date.now() - hit.at < TTL) return hit.value as T;
-  const res = await fetch(`${BASE}${path}`, { cache: "no-store", signal: AbortSignal.timeout(10_000) });
+  const res = await fetch(`${BASE}${path}`, { next: { revalidate: REVALIDATE }, signal: AbortSignal.timeout(15_000) });
   if (!res.ok) {
     let message = `Request failed with status ${res.status}`;
     try { message = (await res.json())?.message || message; } catch { /* ignore */ }
     throw new ApiError(message, res.status);
   }
-  const value = (await res.json()) as T;
-  cache.set(path, { at: Date.now(), value });
-  if (cache.size > 500) cache.delete(cache.keys().next().value as string);
-  return value;
+  return (await res.json()) as T;
 }
 
 const qs = (params: Record<string, string | number | boolean | string[] | undefined>) => {

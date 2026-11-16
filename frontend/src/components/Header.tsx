@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight, ClipboardList, Menu, Search, X } from "lucide-react";
 import { CategoryIcon, Logo } from "./brand";
 import SearchPalette from "./SearchPalette";
@@ -15,13 +15,18 @@ export default function Header({ categories, announcement }: { categories: NavCa
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [mega, setMega] = useState(false);
+  const [family, setFamily] = useState(0);
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Hover intent: open after a short pause, close shortly after the pointer leaves header and panel.
+  const openMega = () => { if (timer.current) clearTimeout(timer.current); timer.current = setTimeout(() => setMega(true), 120); };
+  const closeMega = (delay = 180) => { if (timer.current) clearTimeout(timer.current); timer.current = setTimeout(() => setMega(false), delay); };
   const [search, setSearch] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { items } = useRfq();
   const [lastPath, setLastPath] = useState(pathname);
   if (lastPath !== pathname) { setLastPath(pathname); setOpen(false); setMega(false); }
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => { setScrolled(window.scrollY > 8); setMega(false); };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     const onKey = (e: KeyboardEvent) => {
@@ -49,7 +54,8 @@ export default function Header({ categories, announcement }: { categories: NavCa
       )}
       <header
         className={`sticky top-0 z-50 border-b transition-colors duration-300 ${scrolled || mega ? "border-line bg-paper/90 backdrop-blur-xl" : "border-transparent bg-paper/0"}`}
-        onMouseLeave={() => setMega(false)}
+        onMouseLeave={() => closeMega()}
+        onMouseEnter={() => { if (mega && timer.current) clearTimeout(timer.current); }}
       >
         <div className="shell flex h-16 items-center justify-between gap-3 sm:gap-6 lg:h-[4.5rem]">
           <Link href="/" aria-label="OSAKA TOOL home" className="shrink-0"><Logo /></Link>
@@ -59,8 +65,8 @@ export default function Header({ categories, announcement }: { categories: NavCa
               <Link
                 key={item.href}
                 href={item.href}
-                onMouseEnter={() => setMega(item.href === "/products")}
-                onFocus={() => setMega(item.href === "/products")}
+                onMouseEnter={() => (item.href === "/products" ? openMega() : closeMega(0))}
+                onFocus={() => (item.href === "/products" ? setMega(true) : setMega(false))}
                 aria-expanded={item.href === "/products" ? mega : undefined}
                 className={`relative rounded-full px-3.5 py-2 text-[0.9rem] transition-colors hover:text-beni ${active(item.href) ? "text-ink" : "text-ink-2"}`}
               >
@@ -88,31 +94,42 @@ export default function Header({ categories, announcement }: { categories: NavCa
           </div>
         </div>
 
-        {/* Product mega menu */}
-        <div className={`absolute inset-x-0 top-full hidden border-b border-line bg-paper/95 backdrop-blur-xl transition-all duration-300 lg:block ${mega ? "visible translate-y-0 opacity-100" : "invisible -translate-y-2 opacity-0"}`}>
-          <div className="shell grid grid-cols-12 gap-8 py-10">
-            <div className="col-span-3 border-r border-line pr-8">
-              <p className="eyebrow">Catalogue</p>
-              <p className="mt-4 font-mincho text-2xl font-semibold leading-tight">Instruments and systems, specified to the last detail.</p>
-              <Link href="/products" className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-beni">All products <ArrowRight className="h-4 w-4" /></Link>
-            </div>
-            <div className="col-span-9 grid grid-cols-3 gap-x-8 gap-y-7">
-              {categories.map((c) => (
-                <div key={c.slug}>
-                  <Link href={`/categories/${c.slug}`} className="group flex items-center gap-2.5 font-medium">
-                    <CategoryIcon name={c.icon} className="h-5 w-5 text-beni" />
-                    <span className="group-hover:text-beni">{c.name}</span>
-                  </Link>
-                  <ul className="mt-2.5 space-y-1.5 pl-[1.9rem]">
-                    {c.children.map((child) => (
-                      <li key={child.slug}><Link href={`/categories/${child.slug}`} className="text-sm text-mute hover:text-ink">{child.name}</Link></li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+        {/* Product mega menu: compact two-pane panel; families on the left, their categories on the right. */}
+        {mega && (
+          <div className="absolute inset-x-0 top-full hidden border-b border-line bg-paper shadow-[0_30px_60px_-30px_rgba(23,24,26,0.25)] lg:block">
+            <div className="shell grid grid-cols-12 gap-10 py-8">
+              <ul className="col-span-5 border-r border-line pr-6" role="list">
+                {categories.map((c, i) => (
+                  <li key={c.slug}>
+                    <Link href={`/categories/${c.slug}`} onMouseEnter={() => setFamily(i)} onFocus={() => setFamily(i)}
+                      className={`flex items-center gap-3 rounded-sm px-3 py-2.5 transition-colors ${i === family ? "bg-white text-beni" : "text-ink-2 hover:text-ink"}`}>
+                      <CategoryIcon name={c.icon} className="h-5 w-5 shrink-0" />
+                      <span className="flex-1 font-medium">{c.name}</span>
+                      <ArrowRight className={`h-4 w-4 transition ${i === family ? "translate-x-0 opacity-100" : "-translate-x-1 opacity-0"}`} />
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+              <div className="col-span-7">
+                {categories[family] && (
+                  <>
+                    <p className="font-mincho text-2xl font-semibold">{categories[family].name}</p>
+                    {categories[family].tagline && <p className="mt-1 text-sm text-mute">{categories[family].tagline}</p>}
+                    <ul className="mt-6 grid grid-cols-2 gap-x-6 gap-y-1" role="list">
+                      {categories[family].children.map((child) => (
+                        <li key={child.slug}><Link href={`/categories/${child.slug}`} className="block rounded-sm px-2 py-1.5 text-sm text-ink-2 hover:bg-white hover:text-beni">{child.name}</Link></li>
+                      ))}
+                    </ul>
+                    <div className="mt-8 flex gap-3">
+                      <Link href={`/categories/${categories[family].slug}`} className="btn btn-primary !min-h-10 !py-2 text-sm">View {categories[family].name}</Link>
+                      <Link href="/products" className="btn btn-ghost !min-h-10 !py-2 text-sm">All products</Link>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </header>
 
       {/* Mobile navigation */}
@@ -148,6 +165,7 @@ export default function Header({ categories, announcement }: { categories: NavCa
         </nav>
       </div>
 
+      {mega && <div aria-hidden className="fixed inset-0 z-40 hidden bg-paper/50 backdrop-blur-[2px] lg:block" onMouseEnter={() => closeMega(0)} onClick={() => setMega(false)} />}
       {search && <SearchPalette open onClose={() => setSearch(false)} />}
     </>
   );
