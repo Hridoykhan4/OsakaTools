@@ -39,12 +39,12 @@ export function ProductBuyBox({ product, moq = 1 }: { product: Item; moq?: numbe
         <div className="flex items-center rounded-full border border-line bg-white">
           <button onClick={() => setQty((q) => Math.max(1, q - 1))} className="grid h-11 w-11 place-items-center" aria-label="Decrease quantity"><Minus className="h-4 w-4" /></button>
           <input value={qty} onChange={(e) => setQty(Math.max(1, parseInt(e.target.value, 10) || 1))} inputMode="numeric" aria-label="Quantity"
-            className="w-14 bg-transparent text-center font-mono outline-none" />
+            className="w-10 bg-transparent text-center font-mono outline-none sm:w-14" />
           <button onClick={() => setQty((q) => q + 1)} className="grid h-11 w-11 place-items-center" aria-label="Increase quantity"><Plus className="h-4 w-4" /></button>
         </div>
         {inRfq
-          ? <Link href="/rfq" className="btn btn-primary flex-1"><Check className="h-4 w-4" /> In your quote — review</Link>
-          : <button onClick={() => rfq.add(product, qty)} className="btn btn-red flex-1"><ClipboardList className="h-4 w-4" /> Add to quote request</button>}
+          ? <Link href="/rfq" className="btn btn-primary min-w-0 flex-1 whitespace-normal text-center"><Check className="h-4 w-4" /> In your quote — review</Link>
+          : <button onClick={() => rfq.add(product, qty)} className="btn btn-red min-w-0 flex-1 whitespace-normal text-center"><ClipboardList className="h-4 w-4" /> Add to quote request</button>}
       </div>
       <button onClick={() => compare.toggle({ slug: product.slug, name: product.name })} className="btn btn-ghost w-full">
         <GitCompareArrows className="h-4 w-4" /> {compare.has(product.slug) ? "Remove from comparison" : "Add to comparison"}

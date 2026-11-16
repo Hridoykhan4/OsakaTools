@@ -3,7 +3,6 @@ import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import JsonLd from "./JsonLd";
 import { ProductQuickActions } from "./ProductActions";
-import { Hanko } from "./brand";
 import Tilt from "./motion/Tilt";
 import { breadcrumbSchema } from "@/lib/seo";
 import type { Category, Product } from "@/lib/types";
@@ -29,32 +28,27 @@ export function Breadcrumbs({ items }: { items: { name: string; path: string }[]
   );
 }
 
-export function PageHero({ eyebrow, title, intro, crumbs, children, kanji }: {
+export function PageHero({ eyebrow, title, intro, crumbs, children }: {
   eyebrow: string; title: string; intro?: string; crumbs: { name: string; path: string }[]; children?: React.ReactNode; kanji?: string;
 }) {
   return (
-    <section className="relative overflow-hidden border-b border-line">
-      {kanji && (
-        <span aria-hidden className="vertical pointer-events-none absolute right-3 top-6 select-none font-mincho text-[4.5rem] font-extrabold leading-[1.02] text-beni/[0.13] sm:right-10 sm:text-[8rem]">{kanji}</span>
-      )}
-      <div aria-hidden className="pointer-events-none absolute -left-24 bottom-[-9rem] h-72 w-72 rounded-full bg-beni/[0.07] sm:h-96 sm:w-96" />
+    <section className="relative overflow-hidden border-b border-line bg-white">
       <div className="shell relative pb-14 pt-10 sm:pb-20 sm:pt-14">
         <Breadcrumbs items={crumbs} />
-        <p className="eyebrow reveal mt-10">{eyebrow}</p>
-        <h1 className="display reveal mt-5 max-w-4xl pr-16 text-[2.6rem] sm:pr-32 sm:text-6xl lg:text-7xl">{title}</h1>
-        {intro && <p className="reveal mt-6 max-w-2xl text-lg leading-relaxed text-mute">{intro}</p>}
+        <p className="eyebrow mt-10">{eyebrow}</p>
+        <h1 className="display mt-5 max-w-5xl text-[2.75rem] sm:text-6xl lg:text-[5.5rem]">{title}</h1>
+        {intro && <p className="mt-6 max-w-2xl text-lg leading-relaxed text-mute">{intro}</p>}
         {children}
       </div>
     </section>
   );
 }
 
-export function SectionHead({ eyebrow, title, intro, action, kanji }: { eyebrow: string; title: string; intro?: string; action?: { href: string; label: string }; kanji?: string }) {
+export function SectionHead({ eyebrow, title, intro, action }: { eyebrow: string; title: string; intro?: string; action?: { href: string; label: string }; kanji?: string }) {
   return (
     <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
       <div className="relative max-w-2xl">
-        {kanji && <span aria-hidden className="absolute -left-2 -top-12 select-none font-mincho text-8xl font-extrabold text-beni/[0.09]">{kanji}</span>}
-        <p className="eyebrow relative">{eyebrow}</p>
+                <p className="eyebrow relative">{eyebrow}</p>
         <h2 className="relative mt-4 text-3xl sm:text-[2.9rem] sm:leading-[1.08]">{title}</h2>
         {intro && <p className="relative mt-4 text-mute">{intro}</p>}
       </div>
@@ -74,15 +68,12 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   return (
     <article className="group relative flex h-full flex-col">
       <Tilt trackParent className="relative aspect-square rounded-md border border-line bg-white transition-colors group-hover:border-beni/40">
-        <span aria-hidden className="absolute inset-0 overflow-hidden rounded-sm">
-          <span className="absolute -right-[18%] -top-[18%] h-[52%] w-[52%] rounded-full bg-beni/[0.07] transition duration-700 group-hover:scale-125 group-hover:bg-beni/[0.12]" />
-        </span>
         {product.images[0] ? (
           <div className="z-2 pointer-events-none absolute inset-0">
             <Image src={product.images[0].url} alt={product.images[0].alt || product.name} fill priority={priority}
               sizes="(min-width: 1280px) 22vw, (min-width: 768px) 33vw, 100vw" className="object-contain p-7 transition duration-700 group-hover:scale-[1.05]" />
           </div>
-        ) : <div className="relative grid h-full place-items-center font-mincho text-5xl text-faint">工</div>}
+        ) : <div className="relative grid h-full place-items-center text-sm text-faint">Image pending</div>}
         <span aria-hidden className="sheen pointer-events-none absolute inset-0 rounded-md" />
         {code && <span className="z-3 absolute left-3 top-3 rounded-sm bg-paper-2 px-2 py-0.5 font-mono text-[0.68rem] text-ink-2">{code}</span>}
         <div className="z-3 pointer-events-none absolute inset-0 [&>div]:pointer-events-auto">
@@ -91,7 +82,7 @@ export function ProductCard({ product, priority = false }: { product: Product; p
       </Tilt>
       <div className="flex flex-1 flex-col pt-4">
         {category && <p className="text-xs text-beni">{category.name}</p>}
-        <h3 className="mt-1.5 font-mincho text-[1.12rem] font-semibold leading-snug">
+        <h3 className="mt-1.5 text-[1.02rem] font-medium leading-snug tracking-[-0.015em]">
           <Link href={`/products/${product.slug}`}
             className="bg-[linear-gradient(var(--color-beni),var(--color-beni))] bg-[length:0%_1px] bg-left-bottom bg-no-repeat transition-[background-size] duration-500 after:absolute after:inset-0 group-hover:bg-[length:100%_1px]">
             {product.name}
@@ -122,7 +113,7 @@ export function CategoryTile({ category }: { category: Category; index?: number 
         </div>
       ) : (
         <div className="flex items-start justify-between">
-          <span aria-hidden className="font-mincho text-5xl text-beni/80">{category.isMedical ? "医" : "工"}</span>
+          <span aria-hidden className="h-2.5 w-2.5 bg-beni" />
           <ArrowUpRight className="h-5 w-5 text-faint transition group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-beni" />
         </div>
       )}
@@ -135,18 +126,16 @@ export function CategoryTile({ category }: { category: Category; index?: number 
   );
 }
 
-export function CtaBand({ title = "Specify, compare and request a quote in one place.", text = "Send your bill of materials or a single model number. Our engineers respond with availability, lead time and documentation." }: { title?: string; text?: string }) {
+export function CtaBand({ title = "Send a specification. Receive a quotation.", text = "Model numbers, quantities and destination country. We reply with availability, lead time and the documents your project needs." }: { title?: string; text?: string }) {
   return (
     <section className="shell mt-28">
-      <div className="seigaiha relative overflow-hidden rounded-sm border border-line px-5 py-14 sm:px-14 sm:py-24">
-        <div aria-hidden className="absolute -right-24 -top-24 h-72 w-72 rounded-full bg-beni sm:-right-10 sm:-top-10 sm:h-96 sm:w-96" />
-        <div className="relative max-w-2xl rounded-sm bg-paper/90 p-6 backdrop-blur-sm sm:p-10">
-          <div className="flex items-center gap-4"><Hanko className="h-12 w-12" /><p className="eyebrow">Request for quotation</p></div>
-          <h2 className="mt-6 text-3xl sm:text-5xl sm:leading-[1.08]">{title}</h2>
-          <p className="mt-5 text-ink-2">{text}</p>
+      <div className="grid gap-10 border-t border-ink pt-10 lg:grid-cols-12">
+        <h2 className="text-4xl leading-[1.02] sm:text-6xl lg:col-span-7">{title}</h2>
+        <div className="lg:col-span-4 lg:col-start-9">
+          <p className="text-mute">{text}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Link href="/rfq" className="btn btn-primary">Start a quote request <ArrowRight className="h-4 w-4" /></Link>
-            <Link href="/products" className="btn btn-ghost">Browse the catalogue</Link>
+            <Link href="/contact" className="btn btn-ghost">Contact sales</Link>
           </div>
         </div>
       </div>
@@ -176,9 +165,8 @@ export function Markdown({ text }: { text: string }) {
 
 export function Empty({ title, text, action }: { title: string; text: string; action?: { href: string; label: string } }) {
   return (
-    <div className="asanoha flex flex-col items-center rounded-sm border border-line bg-white px-6 py-16 text-center">
-      <span aria-hidden className="font-mincho text-5xl text-beni/70">空</span>
-      <p className="mt-4 font-mincho text-xl font-semibold">{title}</p>
+    <div className="flex flex-col items-center rounded-md border border-line bg-white px-6 py-16 text-center">
+      <p className="text-xl font-medium">{title}</p>
       <p className="mt-3 max-w-md text-mute">{text}</p>
       {action && <Link href={action.href} className="btn btn-primary mt-6">{action.label}<ArrowRight className="h-4 w-4" /></Link>}
     </div>

@@ -24,8 +24,7 @@ export default async function Resources({ searchParams }: { searchParams: Promis
         {!lead ? <Empty title="Articles are on the way" text="Our engineering desk is preparing technical guides." /> : (
           <>
             <Link href={`/resources/${lead.slug}`} className="group card grid overflow-hidden transition hover:border-ink lg:grid-cols-2">
-              <div className="seigaiha relative flex min-h-56 items-end bg-paper-2 p-8 text-ink">
-                <span aria-hidden className="absolute right-6 top-4 font-mincho text-8xl font-bold text-beni/15">技</span>
+              <div className="grid-paper relative flex min-h-56 items-end bg-paper-2 p-8 text-ink">
                 <p className="text-xs text-beni">{lead.category} · {lead.readingMinutes} min</p>
               </div>
               <div className="p-8 sm:p-10">

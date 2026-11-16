@@ -2,10 +2,10 @@
 
 import { useEffect } from "react";
 
-const HREF = "https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@600;800&display=swap";
+// Only the few Japanese characters the site uses (each shown with its translation).
+const HREF = `https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500&display=swap&text=${encodeURIComponent("精度記録誠実計測防護工具大阪品質技術")}`;
 
-// Japanese glyphs for kanji marks load after first paint, so they never block rendering.
-// Google serves them in unicode-range slices: only the characters on the page download.
+// Japanese glyphs load after first paint, so they never block rendering.
 export default function FontLoader() {
   useEffect(() => {
     if (document.querySelector(`link[href="${HREF}"]`)) return;

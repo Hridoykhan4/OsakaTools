@@ -1,164 +1,129 @@
 @import "tailwindcss";
 
-/* OSAKA TOOL — light only.
-   Shiro (washi white) paper, kinari (unbleached silk) surfaces, sumi ink type,
-   hinomaru red for the sun and seals, ai (indigo) for focus, kin (gold leaf) hairlines. */
+/* OSAKA TOOL — "Precision has a form."
+   Light only. White and cool porcelain surfaces, silver hairlines, graphite type.
+   Red is an indicator, used the way a gauge uses its needle: sparingly, to mark what matters. */
 @theme {
-  --color-paper: #fbfaf7;
-  --color-paper-2: #f3efe6;
-  --color-paper-3: #ebe5d8;
-  --color-ink: #17181a;
-  --color-ink-2: #34373b;
-  --color-mute: #5f646a;
-  --color-faint: #878c92;
-  --color-line: #e2dccf;
-  --color-line-2: #ece7dd;
-  --color-beni: #bc002d;
-  --color-beni-dark: #94001f;
-  --color-beni-soft: #f8e6e9;
-  --color-kin: #a88a4e;
-  --color-silver: #b8bdc3;
-  --color-steel: #e4e6e9;
-  --color-ai: #22408f;
-  --color-ai-soft: #e7ecf8;
-  --color-ok: #1d7a4a;
-  --color-warn: #a35f00;
+  --color-white: #ffffff;
+  --color-paper: #f4f5f6;
+  --color-paper-2: #eceef0;
+  --color-paper-3: #e2e5e8;
+  --color-ink: #15171a;
+  --color-ink-2: #2d3136;
+  --color-mute: #5d646c;
+  --color-faint: #878e96;
+  --color-line: #dadde1;
+  --color-line-2: #e8eaed;
+  --color-silver: #b7bdc4;
+  --color-steel: #e4e7ea;
+  --color-beni: #c8102e;
+  --color-beni-dark: #9c0b22;
+  --color-beni-soft: #fbe8eb;
+  --color-kin: #9a7b45;
+  --color-ai: #1f47b8;
+  --color-ai-soft: #e7ecf9;
+  --color-ok: #1b7a49;
+  --color-warn: #9a5b00;
 
-  --font-sans: var(--font-zen), "Hiragino Sans", "Yu Gothic", ui-sans-serif, system-ui, sans-serif;
-  --font-mincho: var(--font-shippori), "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
-  --font-jp: var(--font-shippori), "Shippori Mincho B1", "Hiragino Mincho ProN", "Yu Mincho", serif;
+  --font-sans: var(--font-geist), "Helvetica Neue", Arial, "Hiragino Sans", "Yu Gothic", "Noto Sans JP", sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, monospace;
+  /* Former display/serif roles now resolve to the same engineered sans. */
+  --font-mincho: var(--font-geist), "Helvetica Neue", Arial, sans-serif;
+  --font-jp: "Noto Sans JP", "Hiragino Sans", "Yu Gothic", var(--font-geist), sans-serif;
 
-  --ease-precise: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --ease-precise: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-brush: cubic-bezier(0.65, 0, 0.35, 1);
-  --animate-spin-slow: spin 60s linear infinite;
-  --animate-spin-rev: spin-rev 90s linear infinite;
   --animate-marquee: marquee 48s linear infinite;
 }
 
-@keyframes spin-rev { to { transform: rotate(-360deg); } }
 @keyframes marquee { to { transform: translateX(-50%); } }
-@keyframes rise { from { transform: translateY(112%); } }
-@keyframes intro-fade { from { opacity: 0; transform: translateY(14px); } }
-@keyframes horizon { from { transform: scaleX(0); } }
-@keyframes ink { from { opacity: .14; } to { opacity: 1; } }
+@keyframes rise { from { transform: translateY(105%); } }
+@keyframes intro-fade { from { opacity: 0; transform: translateY(12px); } }
+@keyframes intro-safety { to { opacity: 1; visibility: visible; } }
 
 @layer base {
-  html { -webkit-text-size-adjust: 100%; }
-  html.lenis, html.lenis body { height: auto; }
-  .lenis.lenis-smooth { scroll-behavior: auto !important; }
-  .lenis.lenis-stopped { overflow: hidden; }
+  html { -webkit-text-size-adjust: 100%; color-scheme: light; }
   body {
     background: var(--color-paper);
     color: var(--color-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "palt";
     text-rendering: optimizeLegibility;
   }
-  /* Washi fibre texture: an inline SVG noise, very faint, fixed behind everything. */
-  body::before {
-    content: ""; position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: .5;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .55 0 0 0 0 .5 0 0 0 0 .42 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
   ::selection { background: var(--color-beni); color: #fff; }
-  :focus-visible { outline: 2px solid var(--color-ai); outline-offset: 3px; border-radius: 4px; }
-  h1, h2, h3, h4 { font-family: var(--font-mincho); font-weight: 600; letter-spacing: -0.01em; text-wrap: balance; }
+  :focus-visible { outline: 2px solid var(--color-ai); outline-offset: 3px; border-radius: 3px; }
+  h1, h2, h3, h4 { font-weight: 500; letter-spacing: -0.035em; text-wrap: balance; }
   p { text-wrap: pretty; }
 }
 
 @layer components {
-  .shell { width: 100%; max-width: 90rem; margin-inline: auto; padding-inline: 1rem; }
-  @media (min-width: 640px) { .shell { padding-inline: 1.5rem; } }
+  .shell { width: 100%; max-width: 100rem; margin-inline: auto; padding-inline: 1.25rem; }
+  @media (min-width: 640px) { .shell { padding-inline: 2rem; } }
   @media (min-width: 1024px) { .shell { padding-inline: 3rem; } }
 
-  /* Section marker: a small hinomaru disc, then the label in sentence case. */
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: .6rem;
-    font-family: var(--font-sans); font-size: .82rem; font-weight: 500; letter-spacing: .02em; color: var(--color-mute);
-  }
-  .eyebrow::before { content: ""; width: .55rem; height: .55rem; border-radius: 999px; background: var(--color-beni); flex-shrink: 0; }
+  /* Section marker: a small red measurement tick and a plain-language label. */
+  .eyebrow { display: inline-flex; align-items: center; gap: .6rem; font-size: .8125rem; font-weight: 500; color: var(--color-mute); }
+  .eyebrow::before { content: ""; width: .5rem; height: .5rem; background: var(--color-beni); flex-shrink: 0; }
 
-  .display { font-family: var(--font-mincho); font-weight: 600; line-height: 1.02; letter-spacing: -0.02em; }
-  .vertical { writing-mode: vertical-rl; text-orientation: upright; }
+  .display { font-weight: 500; line-height: .94; letter-spacing: -0.055em; }
+  .readout { font-family: var(--font-mono); font-size: .75rem; letter-spacing: .02em; font-variant-numeric: tabular-nums; }
 
   .btn {
-    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 2.9rem;
-    padding: .75rem 1.4rem; border-radius: 999px; font-weight: 500; font-size: .93rem; white-space: nowrap; overflow: hidden; isolation: isolate;
-    transition: color .35s var(--ease-precise), border-color .35s, transform .25s var(--ease-precise), background-color .35s;
+    position: relative; display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 2.875rem;
+    padding: .75rem 1.375rem; border-radius: 999px; font-weight: 500; font-size: .9375rem; white-space: nowrap;
+    transition: background-color .3s var(--ease-precise), color .3s var(--ease-precise), border-color .3s var(--ease-precise), transform .2s var(--ease-precise);
   }
   .btn:active { transform: scale(.98); }
-  /* Ink-fill hover: a disc of colour rises from below like ink soaking into paper. */
-  .btn::after {
-    content: ""; position: absolute; z-index: -1; left: 50%; top: 100%; width: 160%; aspect-ratio: 1; border-radius: 999px;
-    transform: translate(-50%, 0) scale(.2); transition: transform .55s var(--ease-brush), top .55s var(--ease-brush);
-  }
-  .btn:hover::after { top: -30%; transform: translate(-50%, 0) scale(1); }
-  .btn-primary { background: var(--color-beni); color: #fff; }
-  .btn-primary::after { background: var(--color-beni-dark); }
-  .btn-red { background: var(--color-beni); color: #fff; }
-  .btn-red::after { background: var(--color-beni-dark); }
-  .btn-ghost { border: 1px solid var(--color-ink); color: var(--color-ink); background: transparent; }
-  .btn-ghost::after { background: var(--color-paper-3); }
+  .btn-primary, .btn-red { background: var(--color-beni); color: #fff; }
+  .btn-primary:hover, .btn-red:hover { background: var(--color-beni-dark); }
+  .btn-ghost { border: 1px solid var(--color-line); color: var(--color-ink); background: #fff; }
+  .btn-ghost:hover { border-color: var(--color-ink); }
   .btn:disabled { opacity: .5; pointer-events: none; }
-  @media (prefers-reduced-motion: reduce) { .btn::after { display: none; } }
 
-  .card { background: #fff; border: 1px solid var(--color-line-2); border-radius: .375rem; }
+  .card { background: #fff; border: 1px solid var(--color-line-2); border-radius: .5rem; }
   .hairline { border-color: var(--color-line); }
 
-  /* Seigaiha (blue-sea wave) pattern in kin hairline. */
-  .seigaiha {
-    background-color: var(--color-paper-2);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='80' height='40' viewBox='0 0 80 40'%3E%3Cg fill='none' stroke='%23a88a4e' stroke-opacity='.28' stroke-width='1'%3E%3Cpath d='M0 40a40 40 0 0 1 80 0M8 40a32 32 0 0 1 64 0M16 40a24 24 0 0 1 48 0M24 40a16 16 0 0 1 32 0'/%3E%3Cpath d='M-40 20a40 40 0 0 1 80 0M-32 20a32 32 0 0 1 64 0M-24 20a24 24 0 0 1 48 0M-16 20a16 16 0 0 1 32 0M40 20a40 40 0 0 1 80 0M48 20a32 32 0 0 1 64 0M56 20a24 24 0 0 1 48 0M64 20a16 16 0 0 1 32 0'/%3E%3C/g%3E%3C/svg%3E");
-    background-size: 80px 40px;
-  }
-  /* Asanoha (hemp leaf) pattern, used sparingly on quiet panels. */
-  .asanoha {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='97' viewBox='0 0 56 97'%3E%3Cg fill='none' stroke='%2317181a' stroke-opacity='.05'%3E%3Cpath d='M28 0v32.3M28 64.7V97M0 16.2l28 16.1 28-16.1M0 80.8l28-16.1 28 16.1M0 16.2v64.6M56 16.2v64.6M28 32.3 0 48.5l28 16.2 28-16.2zM0 16.2 28 48.5 56 16.2M0 80.8l28-32.3 28 32.3'/%3E%3C/g%3E%3C/svg%3E");
-  }
+  /* Technical-drawing grid. */
   .grid-paper {
     background-image:
       linear-gradient(to right, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px),
       linear-gradient(to bottom, color-mix(in srgb, var(--color-ink) 5%, transparent) 1px, transparent 1px);
-    background-size: 48px 48px;
+    background-size: 64px 64px;
   }
   .field {
-    width: 100%; min-height: 2.75rem; border-radius: .375rem; border: 1px solid var(--color-line); background: #fff;
-    padding: .65rem .9rem; font-size: .95rem; color: var(--color-ink); transition: border-color .2s, box-shadow .2s;
+    width: 100%; min-height: 2.875rem; border-radius: .375rem; border: 1px solid var(--color-line); background: #fff;
+    padding: .65rem .9rem; font-size: 1rem; color: var(--color-ink); transition: border-color .2s, box-shadow .2s;
   }
   .field:focus { outline: none; border-color: var(--color-ai); box-shadow: 0 0 0 3px var(--color-ai-soft); }
   .label { display: block; margin-bottom: .375rem; font-size: .8rem; font-weight: 600; color: var(--color-ink-2); }
 
-  .prose-tech { color: var(--color-ink-2); line-height: 1.85; font-size: 1.0625rem; }
+  .prose-tech { color: var(--color-ink-2); line-height: 1.75; font-size: 1.0625rem; }
   .prose-tech h2 { margin: 2.5rem 0 .75rem; font-size: 1.6rem; color: var(--color-ink); }
   .prose-tech h3 { margin: 2rem 0 .5rem; font-size: 1.25rem; color: var(--color-ink); }
   .prose-tech p { margin: 0 0 1.1rem; }
   .prose-tech ul { margin: 0 0 1.25rem; padding-left: 0; list-style: none; }
   .prose-tech li { position: relative; padding-left: 1.4rem; margin: .45rem 0; }
-  .prose-tech li::before { content: ""; position: absolute; left: .1rem; top: .72em; width: .4rem; height: .4rem; border-radius: 99px; background: var(--color-beni); }
-  .prose-tech strong { color: var(--color-ink); font-weight: 700; }
+  .prose-tech li::before { content: ""; position: absolute; left: .1rem; top: .7em; width: .4rem; height: .4rem; background: var(--color-beni); }
+  .prose-tech strong { color: var(--color-ink); font-weight: 600; }
 
-  /* Scroll reveal, driven by the compositor (no JavaScript). Unsupported browsers show content as is. */
+  /* Elements choreographed by GSAP start hidden only when JavaScript runs (the "js" class is set
+     before first paint). A delayed safety animation reveals them if a script ever fails. */
+  .js [data-intro] { opacity: 0; animation: intro-safety 0s 3s forwards; }
+
+  .rise { animation: rise 1s var(--ease-precise) both; }
+  .intro-fade { animation: intro-fade .9s var(--ease-precise) both; }
+
+  /* Scroll reveal driven by the compositor (no JavaScript); unsupported browsers show content as is. */
   @supports (animation-timeline: view()) {
-    .reveal { animation: intro-fade linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+    .reveal { animation: intro-fade linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
   }
 
-  /* Load choreography in pure CSS: runs from first paint, no JavaScript needed. */
-  .rise { animation: rise 1.05s var(--ease-precise) both; }
-  .intro-fade { animation: intro-fade 1s var(--ease-precise) both; }
-  .horizon { animation: horizon 1.6s var(--ease-brush) .1s both; }
-
-  /* Words ink in as they cross the viewport (scroll-driven, where supported). */
-  @supports (animation-timeline: view()) {
-    .ink-words > span { animation: ink linear both; animation-timeline: view(); animation-range: entry 0% cover 42%; }
-  }
-
-  /* 3D tilt surfaces: --rx/--ry are set from the pointer by <Tilt>. */
-  .tilt { transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transform-style: preserve-3d; transition: transform .6s var(--ease-precise); will-change: transform; }
+  /* Pointer tilt for product imagery (set by <Tilt>). */
+  .tilt { transform: perspective(1100px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transform-style: preserve-3d; transition: transform .6s var(--ease-precise); }
   .tilt.is-active { transition: transform .12s linear; }
-  .tilt .z-1 { transform: translateZ(24px); }
-  .tilt .z-2 { transform: translateZ(54px); }
-  .tilt .z-3 { transform: translateZ(80px); }
-  .tilt .sheen { background: radial-gradient(600px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.55), transparent 40%); opacity: 0; transition: opacity .4s; }
+  .tilt .z-1 { transform: translateZ(20px); }
+  .tilt .z-2 { transform: translateZ(44px); }
+  .tilt .z-3 { transform: translateZ(64px); }
+  .tilt .sheen { background: radial-gradient(500px circle at var(--mx, 50%) var(--my, 50%), rgba(255,255,255,.5), transparent 40%); opacity: 0; transition: opacity .4s; }
   .tilt.is-active .sheen { opacity: 1; }
 
   .scrollbar-none { scrollbar-width: none; }
@@ -168,4 +133,5 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .001ms !important; animation-iteration-count: 1 !important; transition-duration: .001ms !important; scroll-behavior: auto !important; }
   .reveal { animation: none !important; }
+  .js [data-intro] { opacity: 1 !important; visibility: visible !important; animation: none !important; }
 }

@@ -48,7 +48,7 @@ export default function Login() {
     <div className="grid min-h-screen bg-paper lg:grid-cols-2">
       <div className="flex items-center justify-center p-6"><Suspense><LoginForm /></Suspense></div>
       <div className="relative hidden items-center justify-center overflow-hidden bg-paper-2 lg:flex">
-        <div className="seigaiha absolute inset-0 opacity-60" />
+        <div className="grid-paper absolute inset-0" />
         <PrecisionDial className="relative w-[70%] opacity-90" />
       </div>
     </div>

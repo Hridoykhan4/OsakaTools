@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { ArrowUpRight, ShieldCheck } from "lucide-react";
 import JsonLd from "@/components/JsonLd";
 import InquiryForm from "@/components/InquiryForm";
-import { familyWord } from "@/components/brand";
 import { CategoryTile, CtaBand, Markdown, PageHero, ProductCard, SectionHead } from "@/components/ui";
 import { api, ApiError, safe } from "@/lib/api";
 import { collectionSchema, pageMetadata } from "@/lib/seo";
@@ -37,7 +36,7 @@ export default async function CategoryPage({ params }: Params) {
   return (
     <>
       <JsonLd data={collectionSchema(`/categories/${c.slug}`, c.name, products.map((p) => ({ name: p.name, path: `/products/${p.slug}` })))} />
-      <PageHero eyebrow={parent ? parent.name : "Product family"} title={c.name} intro={c.description} crumbs={crumbs} kanji={familyWord(parent?.slug || c.slug)}>
+      <PageHero eyebrow={parent ? parent.name : "Product family"} title={c.name} intro={c.description} crumbs={crumbs}>
         {c.isMedical && (
           <p className="mt-8 inline-flex max-w-2xl items-start gap-3 rounded-sm border border-ai/30 bg-ai-soft p-4 text-sm text-ink-2">
             <ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-ai" />Medical devices are listed only with documented market registration, and each listing names the markets where the device may be supplied.

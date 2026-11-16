@@ -9,10 +9,9 @@ export default function ProductGallery({ images, name }: { images: Img[]; name: 
   const current = images[active];
   return (
     <div>
-      <div className="relative aspect-square overflow-hidden rounded-sm border border-line bg-paper-2">
-        <div aria-hidden className="absolute left-1/2 top-1/2 h-[72%] w-[72%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white" />
+      <div className="grid-paper relative aspect-square overflow-hidden rounded-md border border-line bg-white">
         {current ? (
-          <Image key={current.url} src={current.url} alt={current.alt || name} fill priority sizes="(min-width: 1024px) 55vw, 100vw" className="object-contain p-8 mix-blend-multiply sm:p-14" />
+          <Image key={current.url} src={current.url} alt={current.alt || name} fill priority sizes="(min-width: 1024px) 55vw, 100vw" className="object-contain p-8 mix-blend-multiply sm:p-16" />
         ) : <div className="grid h-full place-items-center font-mono text-sm text-faint">Image pending</div>}
         <span className="absolute bottom-4 left-4 font-mincho text-xs text-faint">Fig. {String(active + 1).padStart(2, "0")}</span>
       </div>

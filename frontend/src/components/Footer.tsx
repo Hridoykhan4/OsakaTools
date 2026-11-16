@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Hanko, Logo } from "./brand";
+import { Logo } from "./brand";
 import { site } from "@/lib/site";
 import type { SiteSettings } from "@/lib/types";
 
@@ -20,7 +20,7 @@ export default function Footer({ settings }: { settings?: SiteSettings }) {
   const email = settings?.contact.email || site.email;
   const social = SOCIAL.filter(([k]) => settings?.social[k]);
   return (
-    <footer className="relative mt-28 overflow-hidden border-t border-line bg-paper-2">
+    <footer className="relative mt-32 overflow-hidden border-t border-line bg-white">
       <div className="shell grid gap-12 py-16 lg:grid-cols-12 lg:py-20">
         <div className="lg:col-span-4">
           <Logo />
@@ -44,7 +44,7 @@ export default function Footer({ settings }: { settings?: SiteSettings }) {
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4 lg:col-span-8">
           {COLUMNS.map((col) => (
             <div key={col.title}>
-              <p className="font-mincho text-sm font-semibold">{col.title}</p>
+              <p className="text-sm font-medium text-faint">{col.title}</p>
               <ul className="mt-4 space-y-2.5">
                 {col.links.map(([label, href]) => (
                   <li key={href}><Link href={href} className="text-sm text-ink-2 transition hover:text-beni">{label}</Link></li>
@@ -55,16 +55,15 @@ export default function Footer({ settings }: { settings?: SiteSettings }) {
         </div>
       </div>
 
-      {/* Monumental wordmark, cut off by the page edge like a stamp pressed past the paper. */}
-      <div aria-hidden className="shell relative flex items-end justify-between gap-6">
-        <p className="min-w-0 flex-1 select-none overflow-hidden whitespace-nowrap font-mincho text-[17vw] font-extrabold leading-[0.78] tracking-[-0.02em] text-ink/[0.07] lg:text-[13.5rem]">OSAKA TOOL</p>
-        <Hanko className="mb-6 hidden h-20 w-20 shrink-0 -rotate-6 sm:block" />
+      {/* Monumental wordmark, cropped by the page edge. */}
+      <div aria-hidden className="overflow-hidden">
+        <p className="shell select-none whitespace-nowrap text-[18.5vw] font-semibold leading-[0.74] tracking-[-0.06em] text-ink/[0.06]">OSAKA TOOL</p>
       </div>
 
       <div className="border-t border-line">
         <div className="shell flex flex-col gap-3 py-6 text-xs text-mute sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {site.name}. Product names and trademarks belong to their respective manufacturers.</p>
-          <p className="font-mincho tracking-[0.3em]">精密 ・ 品質 ・ 信頼</p>
+          <p>Light, precise, documented.</p>
         </div>
       </div>
     </footer>
