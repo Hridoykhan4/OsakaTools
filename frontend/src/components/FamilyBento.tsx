@@ -19,11 +19,8 @@ export default function FamilyBento({ families }: { families: Family[] }) {
       <div className="grid gap-6 lg:grid-cols-12">
         <div className="lg:col-span-7">
           <p className="eyebrow">Product families</p>
-          <h2 className="mt-5 text-4xl leading-[1.05] sm:text-6xl lg:text-7xl">Every discipline, one standard.</h2>
+          <h2 className="mt-5 text-4xl leading-[1.05] sm:text-6xl">Every discipline, one standard.</h2>
         </div>
-        <p className="max-w-sm self-end text-mute lg:col-span-4 lg:col-start-9">
-          From the electrician’s multimeter to the sprinkler valve on a high-rise riser, every family is organised by the task it measures or protects.
-        </p>
       </div>
 
       <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[19rem]">
@@ -48,7 +45,7 @@ export default function FamilyBento({ families }: { families: Family[] }) {
                 <div className={`z-3 pointer-events-none relative flex-1 ${hero ? "my-4" : "my-2"}`}>
                   {f.images[0] ? (
                     <Image src={f.images[0].url} alt="" fill sizes={hero ? "(min-width:1024px) 45vw, 90vw" : "(min-width:1024px) 22vw, 45vw"}
-                      className="object-contain mix-blend-multiply transition-transform duration-700 group-hover:scale-[1.06]" />
+                      className="object-contain transition-transform duration-700 group-hover:scale-[1.06]" />
                   ) : (
                     <span aria-hidden className="absolute inset-0 grid place-items-center font-mincho text-7xl font-extrabold text-white/0 transition-colors duration-700 group-hover:text-white">{f.kanji}</span>
                   )}
@@ -56,8 +53,7 @@ export default function FamilyBento({ families }: { families: Family[] }) {
 
                 <div className="z-2 relative">
                   <h3 className={`leading-tight ${hero ? "text-3xl sm:text-4xl" : "text-xl sm:text-2xl"}`}>{f.name}</h3>
-                  {hero && f.tagline && <p className="mt-2 max-w-md text-mute">{f.tagline}</p>}
-                  {hero && (
+                                    {hero && (
                     <p className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-sm text-ink-2">{f.children.slice(0, 6).map((c) => <span key={c.slug}>{c.name}</span>)}</p>
                   )}
                 </div>

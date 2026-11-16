@@ -73,18 +73,18 @@ export function ProductCard({ product, priority = false }: { product: Product; p
   const code = product.modelNumber || product.sku;
   return (
     <article className="group relative flex h-full flex-col">
-      <Tilt trackParent className="relative aspect-square rounded-sm bg-paper-2">
+      <Tilt trackParent className="relative aspect-square rounded-md border border-line bg-white transition-colors group-hover:border-beni/40">
         <span aria-hidden className="absolute inset-0 overflow-hidden rounded-sm">
-          <span className="absolute left-1/2 top-1/2 h-[64%] w-[64%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-white transition duration-700 group-hover:scale-110" />
+          <span className="absolute -right-[18%] -top-[18%] h-[52%] w-[52%] rounded-full bg-beni/[0.07] transition duration-700 group-hover:scale-125 group-hover:bg-beni/[0.12]" />
         </span>
         {product.images[0] ? (
           <div className="z-2 pointer-events-none absolute inset-0">
             <Image src={product.images[0].url} alt={product.images[0].alt || product.name} fill priority={priority}
-              sizes="(min-width: 1280px) 22vw, (min-width: 768px) 33vw, 100vw" className="object-contain p-8 mix-blend-multiply transition duration-700 group-hover:scale-[1.05]" />
+              sizes="(min-width: 1280px) 22vw, (min-width: 768px) 33vw, 100vw" className="object-contain p-7 transition duration-700 group-hover:scale-[1.05]" />
           </div>
         ) : <div className="relative grid h-full place-items-center font-mincho text-5xl text-faint">工</div>}
-        <span aria-hidden className="sheen pointer-events-none absolute inset-0 rounded-sm" />
-        {code && <span className="z-3 absolute left-3 top-3 rounded-sm bg-white/90 px-2 py-0.5 font-mono text-[0.68rem] text-ink-2">{code}</span>}
+        <span aria-hidden className="sheen pointer-events-none absolute inset-0 rounded-md" />
+        {code && <span className="z-3 absolute left-3 top-3 rounded-sm bg-paper-2 px-2 py-0.5 font-mono text-[0.68rem] text-ink-2">{code}</span>}
         <div className="z-3 pointer-events-none absolute inset-0 [&>div]:pointer-events-auto">
           <ProductQuickActions product={{ id: product._id, slug: product.slug, name: product.name, sku: product.sku || product.modelNumber, image: product.images[0]?.url }} />
         </div>
