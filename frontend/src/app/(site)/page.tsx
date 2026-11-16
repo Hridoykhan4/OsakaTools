@@ -2,7 +2,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import HeroInstrument from "@/components/home/HeroInstrument";
-import HomeMotion from "@/components/home/HomeMotion";
 import Gauge from "@/components/home/Gauge";
 import { ProductBuyBox } from "@/components/ProductActions";
 import { loadSettings } from "@/lib/api";
@@ -49,7 +48,6 @@ export default async function Home() {
     <>
       <HeroInstrument parts={hero} title={settings.hero.title || DEFAULT_TITLE} subtitle={settings.hero.subtitle || DEFAULT_SUB} />
 
-      <HomeMotion>
         {/* 2 — Engineering detail: one instrument, read value by value */}
         {detail && (
           <section className="border-y border-line bg-white" aria-labelledby="detail-title">
@@ -119,10 +117,10 @@ export default async function Home() {
             <div className="order-2 lg:order-1 lg:col-span-7">
               <div className="grid grid-cols-6 grid-rows-6 gap-3 sm:gap-4" style={{ aspectRatio: "1 / 0.9" }}>
                 {protect.slice(0, 3).map((p, i) => (
-                  <Link key={p._id} href={`/products/${p.slug}`} data-parallax={[0.15, 0.35, 0.55][i]}
-                    className={`group relative overflow-hidden bg-white ${["col-span-4 row-span-6", "col-span-2 row-span-3", "col-span-2 row-span-3"][i]}`}>
+                  <Link key={p._id} href={`/products/${p.slug}`} data-parallax style={{ "--p": [0.15, 0.35, 0.55][i] } as React.CSSProperties}
+                    aria-label={p.name} className={`group relative overflow-hidden bg-white ${["col-span-4 row-span-6", "col-span-2 row-span-3", "col-span-2 row-span-3"][i]}`}>
                     <div data-wipe className="absolute inset-0">
-                      <Image src={trimmed(p.images[0]?.url)} alt={p.name} fill sizes="(min-width:1024px) 30vw, 60vw" className="object-contain p-[12%] transition-transform duration-700 group-hover:scale-105" />
+                      <Image src={trimmed(p.images[0]?.url)} alt="" fill sizes={i === 0 ? "(min-width:1024px) 38vw, 64vw" : "(min-width:1024px) 19vw, 32vw"} className="object-contain p-[12%] transition-transform duration-700 group-hover:scale-105" />
                     </div>
                     <span className="absolute bottom-3 left-3 right-3 text-xs text-mute opacity-0 transition-opacity group-hover:opacity-100">{p.name}</span>
                   </Link>
@@ -181,7 +179,7 @@ export default async function Home() {
                 return (
                   <Link key={p._id} href={`/products/${p.slug}`} className="group block">
                     <div data-wipe className="relative aspect-[4/5] overflow-hidden bg-paper">
-                      <Image src={trimmed(p.images[0]?.url)} alt={p.name} fill sizes="(min-width:1024px) 24vw, (min-width:640px) 48vw, 92vw" className="object-contain p-[14%] drop-shadow-[0_20px_22px_rgba(21,23,26,0.12)] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
+                      <Image src={trimmed(p.images[0]?.url)} alt="" fill sizes="(min-width:1024px) 24vw, (min-width:640px) 48vw, 92vw" className="object-contain p-[14%] transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]" />
                       <span className="absolute left-4 top-4 h-2 w-2 bg-beni opacity-0 transition-opacity group-hover:opacity-100" />
                     </div>
                     <p className="mt-5 text-xs text-faint">{cat?.name}</p>
@@ -241,7 +239,6 @@ export default async function Home() {
             </div>
           </div>
         </section>
-      </HomeMotion>
     </>
   );
 }

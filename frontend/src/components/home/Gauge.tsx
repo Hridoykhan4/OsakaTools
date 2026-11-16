@@ -1,5 +1,5 @@
 // A measurement scale drawn as a technical illustration. The needle is driven by scroll
-// (see HomeMotion, data-needle); it represents the act of measuring, not a product reading.
+// (CSS scroll-driven animation on data-needle); it represents measuring, not a product reading.
 export default function Gauge({ className = "" }: { className?: string }) {
   const ticks = Array.from({ length: 61 }, (_, i) => i);
   const angle = (i: number) => (-210 + (i / 60) * 240) * (Math.PI / 180);

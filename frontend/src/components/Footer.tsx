@@ -56,8 +56,10 @@ export default function Footer({ settings }: { settings?: SiteSettings }) {
       </div>
 
       {/* Monumental wordmark, cropped by the page edge. */}
-      <div aria-hidden className="overflow-hidden">
-        <p className="shell select-none whitespace-nowrap text-[18.5vw] font-semibold leading-[0.74] tracking-[-0.06em] text-ink/[0.06]">OSAKA TOOL</p>
+      <div aria-hidden className="shell overflow-hidden">
+        <svg viewBox="0 0 1000 150" className="block w-full select-none" preserveAspectRatio="xMinYMax meet">
+          <text x="-6" y="148" fontSize="196" fontWeight="600" letterSpacing="-11" fill="currentColor" className="text-ink/[0.06]" style={{ fontFamily: "var(--font-geist)" }}>OSAKA TOOL</text>
+        </svg>
       </div>
 
       <div className="border-t border-line">
